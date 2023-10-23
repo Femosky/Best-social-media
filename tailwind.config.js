@@ -7,8 +7,10 @@ export default {
         extend: {
             colors: {
                 secondary: {
-                    DEFAULT: colors.neutral[100],
-                    hover: colors.neutral[200],
+                    // DEFAULT: colors.neutral[100],
+                    DEFAULT: '#ffffff',
+                    // hover: colors.neutral[200],
+                    hover: colors.neutral[100],
                     border: colors.neutral[400],
                     text: colors.zinc[500],
                     dark: colors.zinc[900],
