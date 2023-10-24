@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Button } from '../components/Button';
 import img1 from '../assets/images/model-one-iphone.png';
 
@@ -22,9 +23,11 @@ export function Home() {
                 <h4 className="font-inter text-gray-500 text-base lg:text-lg mt-4 mb-4 md:mb-11 lg:mt-6 lg:mb-20">
                     Showcase your art instantly with your Besties!
                 </h4>
-                <Button variant="dark" className="lg:w-[465px] font-bold">
-                    Sign up
-                </Button>
+                <Link to="/login">
+                    <Button variant="dark" className="lg:w-[465px] font-bold">
+                        Sign up
+                    </Button>
+                </Link>
             </div>
         </div>
     );
