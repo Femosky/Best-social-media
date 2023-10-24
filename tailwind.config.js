@@ -17,6 +17,10 @@ export default {
                     ['dark-hover']: colors.zinc[950],
                 },
             },
+            fontFamily: {
+                plusJakarta: ['Plus Jakarta Sans', 'sans-serif'],
+                inter: ['Inter', 'sans-serif'],
+            },
         },
     },
     plugins: [],
