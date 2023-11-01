@@ -59,16 +59,16 @@ export const Navbar: React.FC = () => {
     return (
         <>
             <div
-                className={`border border-red-500 flex w-screen justify-between items-center bg-white py-4 px-[50px] sticky top-0 left-0 right-0 font-plusJakarta  | md:px-[72px]`}
+                className={`bg-red-300 flex w-full justify-between items-center bg-white py-4 px-[50px] sticky top-0 left-0 right-0 font-plusJakarta  | md:px-[72px]`}
             >
-                <div className="border border-green-500">
+                <div className="">
                     <Link to="/">
                         <h1 className="text-[20px] font-extrabold leading-[30px] tracking-[3px] text-gray-900">BEST</h1>
                     </Link>
                 </div>
 
                 {!isSmall && (
-                    <div className="border border-green-500 flex gap-4">
+                    <div className="flex gap-4">
                         <div className="hidden lg:flex">
                             <Link to="/login">
                                 <Button onClick={loginToggle}>Login</Button>

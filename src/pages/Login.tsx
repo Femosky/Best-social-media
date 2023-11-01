@@ -26,7 +26,7 @@ export function Login() {
                 <img className="w-[500px] h-min" src={img1} alt="" />
             </div>
             <div className="border border-yellow-700 flex flex-col w-full max-w-[454px] justify-self-center mt-10 | md:w-[454px] md:mt-20 | lg:pt-8 lg:justify-self-start">
-                <h1 className="border border-yellow-700 text-[56px] mb-14 text-center leading-[45px] font-extrabold min-w-[338px] | md:leading-[60px] md:w-full | lg:leading-[80px] lg:mb-9">
+                <h1 className="border border-yellow-700 text-[56px] mb-14 text-center leading-[45px] font-extrabold | md:leading-[60px] md:w-full | lg:leading-[80px] lg:mb-9">
                     Join <BestGradient />
                 </h1>
                 <div className="mb-6 w-full">
