@@ -2,15 +2,18 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 
 type AuthContextProps = {
     children?: ReactNode;
-    isLoginToggle: boolean;
-    setIsLoginToggle: React.Dispatch<React.SetStateAction<boolean>>;
-    isSignupToggle: boolean;
-    setIsSignupToggle: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+const AuthContext = createContext<
+    | {
+          isLoginToggle: boolean;
+          setIsLoginToggle: React.Dispatch<React.SetStateAction<boolean>>;
+          isSignupToggle: boolean;
+          setIsSignupToggle: React.Dispatch<React.SetStateAction<boolean>>;
+      }
+    | undefined
+>(undefined);
 
-// Create a provider to wrap your components
 export function AuthProvider({ children }: AuthContextProps) {
     const [isLoginToggle, setIsLoginToggle] = useState(false);
     const [isSignupToggle, setIsSignupToggle] = useState(true);

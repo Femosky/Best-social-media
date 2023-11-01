@@ -12,7 +12,7 @@ export function Input({ className, id, placeholder, ...props }: InputProps) {
             id={id}
             placeholder={placeholder}
             className={twMerge(
-                'border border-[#EBEBF0] rounded-2xl bg-[#F5F5FA] p-6 text-[#1D1E24] font-inter text-base w-[454px] h-[67px] focus:outline-none',
+                'border border-[#EBEBF0] rounded-2xl bg-[#F5F5FA] p-6 text-[#1D1E24] font-inter text-base w-full h-[67px] focus:outline-none shrink',
                 className
             )}
         />

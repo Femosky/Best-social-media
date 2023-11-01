@@ -6,7 +6,9 @@ import { useAuth } from '../contexts/AuthContext';
 
 export const Navbar: React.FC = () => {
     const [isSmall, setIsSmall] = useState(false);
-    const { isLoginToggle, setIsLoginToggle, isSignupToggle, setIsSignupToggle } = useAuth();
+    const { setIsLoginToggle, setIsSignupToggle } = useAuth();
+
+    const [isScreenSmall, setIsScreenSmall] = useState(window.innerWidth < 768);
 
     function loginToggle() {
         setIsLoginToggle(true);
@@ -26,13 +28,13 @@ export const Navbar: React.FC = () => {
         setIsSmall(false);
     }
 
-    function isScreenSmall() {
+    function isScreenMedium() {
         return window.innerWidth < 1024;
     }
 
     useEffect(() => {
         function handler() {
-            if (!isScreenSmall()) setIsSmall(false);
+            if (!isScreenMedium()) setIsSmall(false);
         }
 
         window.addEventListener('resize', handler);
@@ -42,48 +44,52 @@ export const Navbar: React.FC = () => {
         };
     }, []);
 
+    useEffect(() => {
+        function handleResize() {
+            setIsScreenSmall(window.innerWidth < 768);
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     return (
         <>
-            {
-                <div
-                    className={` flex gap-56 justify-between items-center bg-white py-4 px-[50px] md:px-[72px] sticky top-0 font-plusJakarta`}
-                >
-                    <div>
-                        <Link to="/">
-                            <h1 className="text-[20px] font-extrabold leading-[30px] tracking-[3px] text-gray-900">
-                                BEST
-                            </h1>
-                        </Link>
-                    </div>
-
-                    {!isSmall && (
-                        <div className="flex gap-4">
-                            <div className="hidden lg:flex">
-                                <Link to="/login">
-                                    <Button onClick={loginToggle}>Login</Button>
-                                </Link>
-                                <Link to="/login">
-                                    <Button onClick={signupToggle} className="hover:font-semibold" variant={'dark'}>
-                                        Sign up
-                                    </Button>
-                                </Link>
-                            </div>
-
-                            <Button
-                                onClick={toggle}
-                                className={`lg:hidden ${isSmall ? 'hidden' : 'flex'}`}
-                                size="round"
-                            >
-                                <Menu />
-                            </Button>
-                        </div>
-                    )}
+            <div
+                className={`border border-red-500 flex w-screen justify-between items-center bg-white py-4 px-[50px] sticky top-0 left-0 right-0 font-plusJakarta  | md:px-[72px]`}
+            >
+                <div className="border border-green-500">
+                    <Link to="/">
+                        <h1 className="text-[20px] font-extrabold leading-[30px] tracking-[3px] text-gray-900">BEST</h1>
+                    </Link>
                 </div>
-            }
+
+                {!isSmall && (
+                    <div className="border border-green-500 flex gap-4">
+                        <div className="hidden lg:flex">
+                            <Link to="/login">
+                                <Button onClick={loginToggle}>Login</Button>
+                            </Link>
+                            <Link to="/login">
+                                <Button onClick={signupToggle} className="hover:font-semibold" variant={'dark'}>
+                                    Sign up
+                                </Button>
+                            </Link>
+                        </div>
+
+                        <Button onClick={toggle} className={`lg:hidden ${isSmall ? 'hidden' : 'flex'}`} size="round">
+                            <Menu />
+                        </Button>
+                    </div>
+                )}
+            </div>
 
             {isSmall && (
                 <aside className="grid z-[999] fixed top-0 bg-white min-w-full min-h-full h-screen w-screen shrink-0 | md:min-w-0 md:w-[28rem] md:right-0 md:rounded-l-2xl">
-                    <section className="flex justify-between items-center py-4 px-[50px] top-0 right-0 font-plusJakarta overflow-hidden h-[4.5rem] rounded-lg | md:px-[72px] md:justify-end">
+                    <section className="flex justify-between items-center py-4 px-[50px] top-0 right-0 font-plusJakarta h-[4.5rem] rounded-lg | md:px-[72px] md:justify-end">
                         <div className="flex md:hidden">
                             <a href="/">
                                 <h1 className="text-[20px] font-extrabold leading-[30px] tracking-[3px] text-gray-900">
