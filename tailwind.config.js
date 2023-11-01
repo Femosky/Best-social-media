@@ -11,6 +11,7 @@ export default {
                     DEFAULT: '#ffffff',
                     // hover: colors.neutral[200],
                     hover: colors.neutral[100],
+                    ['hover-hover']: colors.neutral[300],
                     border: colors.neutral[400],
                     text: colors.zinc[500],
                     dark: colors.zinc[900],
