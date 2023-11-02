@@ -22,6 +22,9 @@ export default {
                 plusJakarta: ['Plus Jakarta Sans', 'sans-serif'],
                 inter: ['Inter', 'sans-serif'],
             },
+            screens: {
+                xs: '390px',
+            },
         },
     },
     plugins: [],

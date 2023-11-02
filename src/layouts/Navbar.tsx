@@ -8,8 +8,6 @@ export const Navbar: React.FC = () => {
     const [isSmall, setIsSmall] = useState(false);
     const { setIsLoginToggle, setIsSignupToggle } = useAuth();
 
-    const [isScreenSmall, setIsScreenSmall] = useState(window.innerWidth < 768);
-
     function loginToggle() {
         setIsLoginToggle(true);
         setIsSignupToggle(false);
@@ -44,22 +42,10 @@ export const Navbar: React.FC = () => {
         };
     }, []);
 
-    useEffect(() => {
-        function handleResize() {
-            setIsScreenSmall(window.innerWidth < 768);
-        }
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
     return (
         <>
             <div
-                className={`bg-red-300 flex w-full justify-between items-center bg-white py-4 px-[50px] sticky top-0 left-0 right-0 font-plusJakarta  | md:px-[72px]`}
+                className={`flex w-full justify-between items-center bg-white py-4 px-[50px] sticky top-0 left-0 right-0 font-plusJakarta min-w-[230px] | md:px-[72px]`}
             >
                 <div className="">
                     <Link to="/">
@@ -88,7 +74,9 @@ export const Navbar: React.FC = () => {
             </div>
 
             {isSmall && (
-                <aside className="grid z-[999] fixed top-0 bg-white min-w-full min-h-full h-screen w-screen shrink-0 | md:min-w-0 md:w-[28rem] md:right-0 md:rounded-l-2xl">
+                <aside
+                    className={`grid z-[999] fixed top-0 bg-white min-w-full min-h-full h-screen w-screen shrink-0 | md:transition-all md:w-[28rem] md:min-w-0 md:right-0 md:rounded-l-2xl`}
+                >
                     <section className="flex justify-between items-center py-4 px-[50px] top-0 right-0 font-plusJakarta h-[4.5rem] rounded-lg | md:px-[72px] md:justify-end">
                         <div className="flex md:hidden">
                             <a href="/">
