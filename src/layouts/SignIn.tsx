@@ -3,7 +3,7 @@ import { Input } from '../components/Input';
 import { ComponentProps } from 'react';
 import { Button } from '../components/Button';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
+// import * as yup from 'yup';
 
 type formProps = ComponentProps<'form'>;
 
