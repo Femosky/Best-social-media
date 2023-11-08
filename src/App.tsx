@@ -11,7 +11,7 @@ function App() {
         <AuthProvider>
             <Router>
                 <Navbar />
-                <div className="mt-10 font-plusJakarta">
+                <div className={`mt-10 font-plusJakarta`}>
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/login" element={<Login />} />

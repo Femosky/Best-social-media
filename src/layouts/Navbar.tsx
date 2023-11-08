@@ -3,6 +3,7 @@ import { Menu, X } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+// import { useNavbar } from '../contexts/NavbarContext';
 
 export const Navbar: React.FC = () => {
     const [isSmall, setIsSmall] = useState(false);
@@ -45,7 +46,9 @@ export const Navbar: React.FC = () => {
     return (
         <>
             <div
-                className={`flex w-full justify-between overscroll-contain items-center bg-white py-4 px-[50px] sticky top-0 left-0 right-0 font-plusJakarta min-w-[230px] | md:px-[72px]`}
+                className={`flex w-full justify-between items-center bg-white py-4 px-[50px] sticky top-0 left-0 right-0 font-plusJakarta min-w-[230px] | md:px-[72px] ${
+                    isSmall && 'overscroll-none overflow-hidden'
+                }`}
             >
                 <div className="">
                     <Link to="/">
