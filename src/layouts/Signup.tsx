@@ -101,7 +101,7 @@ export function Signup({ className, ...props }: formProps) {
 
     return (
         <form {...props} className={twMerge('flex flex-col gap-6 w-full', className)} onSubmit={handleSubmit(onSubmit)}>
-            <div className={`text-red-400 ${isSignupSuccessful && 'text-green-500'}`}>
+            <div className={`${isSignupSuccessful ? 'text-green-500' : 'text-red-400'}`}>
                 {isAccountExisting && !visible ? 'This email address belongs to an account' : ''}
                 {!isSignupSuccessful && visible ? 'Network failure. Try again.' : ''}
                 {isSignupSuccessful && 'Account created successfully'}
