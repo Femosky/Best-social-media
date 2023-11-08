@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react';
+import { ComponentProps, useState } from 'react';
 import { Input } from '../components/Input';
 import { twMerge } from 'tailwind-merge';
 import { Button } from '../components/Button';
@@ -6,21 +6,30 @@ import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { LoadingSpinner } from '../components/LoadingSpinner';
 
 type formProps = ComponentProps<'form'>;
 
 type FormValues = {
     firstname: string;
-    surname: string;
+    lastname: string;
     email: string;
     password: string;
     confirmPassword: string;
 };
 
 export function Signup({ className, ...props }: formProps) {
+    const navigate = useNavigate();
+
+    const [isSignupSuccessful, setIsSignupSuccessful] = useState(false);
+    const [isAccountExisting, setIsAccountExisting] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [visible, setErrorVisible] = useState(false);
+
     const schema = yup.object().shape({
         firstname: yup.string().required('Enter your first name'),
-        surname: yup.string().required('Enter your surname'),
+        lastname: yup.string().required('Enter your surname'),
         email: yup.string().email('Enter a real email address').required('Enter your email address'),
         password: yup
             .string()
@@ -33,7 +42,7 @@ export function Signup({ className, ...props }: formProps) {
 
         confirmPassword: yup
             .string()
-            .oneOf([yup.ref('password'), null], 'Password not matching')
+            .oneOf([yup.ref('password'), undefined], 'Password not matching')
             .required('Confirm your password'),
     });
 
@@ -45,16 +54,58 @@ export function Signup({ className, ...props }: formProps) {
         resolver: yupResolver(schema),
     });
 
-    function onSubmit(data: FormValues) {
-        console.log(data);
-    }
+    async function onSubmit(data: FormValues) {
+        setIsLoading(true);
 
-    function code(data: FormValues) {
-        Axios.post();
+        try {
+            const apiUrl = 'https://socialmediaapp-ugrr.onrender.com/register';
+
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { confirmPassword, ...dataForPost } = data;
+
+            const res = await axios.post(apiUrl, dataForPost);
+
+            console.log('Signup successful: ', res.data);
+
+            // setIsLoading(false);
+            setIsAccountExisting(false);
+            setIsSignupSuccessful(true);
+
+            setTimeout(() => {
+                navigate('/profile');
+            }, 3000);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            setIsLoading(false);
+            setIsSignupSuccessful(false);
+
+            console.log('Error signing up: ', error);
+
+            if (error.response && error.response.data) {
+                const errorMessage = error.response.data.message;
+
+                if (errorMessage === 'User already exists!') {
+                    console.log('User already exists!');
+                    setIsAccountExisting(true);
+                    setErrorVisible(false);
+                } else {
+                    setIsAccountExisting(false);
+                    setErrorVisible(true);
+                }
+            } else {
+                setIsAccountExisting(false);
+                setErrorVisible(true);
+            }
+        }
     }
 
     return (
         <form {...props} className={twMerge('flex flex-col gap-6 w-full', className)} onSubmit={handleSubmit(onSubmit)}>
+            <div className={`text-red-400 ${isSignupSuccessful && 'text-green-500'}`}>
+                {isAccountExisting && !visible ? 'This email address belongs to an account' : ''}
+                {!isSignupSuccessful && visible ? 'Network failure. Try again.' : ''}
+                {isSignupSuccessful && 'Account created successfully'}
+            </div>
             <div className="flex flex-col">
                 <label htmlFor="firstname" className="mb-[16px] font-inter font-bold text-sm text-[#1D1E24]">
                     First name
@@ -73,12 +124,12 @@ export function Signup({ className, ...props }: formProps) {
                     Surname
                 </label>
                 <Controller
-                    name="surname"
+                    name="lastname"
                     control={control}
                     defaultValue=""
-                    render={({ field }) => <Input id="surname" placeholder="Surname" {...field} />}
+                    render={({ field }) => <Input id="lastname" placeholder="Surname" {...field} />}
                 />
-                <p className="text-red-400">{errors.surname?.message}</p>
+                <p className="text-red-400">{errors.lastname?.message}</p>
             </div>
 
             <div className="flex flex-col">
@@ -120,8 +171,20 @@ export function Signup({ className, ...props }: formProps) {
                 <p className="text-red-400">{errors.confirmPassword?.message}</p>
             </div>
 
-            <Button variant="dark" type="submit">
-                Sign up
+            <Button variant="dark" type="submit" className="flex justify-center items-center">
+                {!isLoading && !isSignupSuccessful && 'Sign up'}
+
+                {isLoading && !isSignupSuccessful && (
+                    <>
+                        <LoadingSpinner /> Signing up
+                    </>
+                )}
+
+                {isLoading && isSignupSuccessful && (
+                    <>
+                        <LoadingSpinner /> Logging you in
+                    </>
+                )}
             </Button>
         </form>
     );
