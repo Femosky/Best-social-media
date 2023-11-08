@@ -75,7 +75,7 @@ export const Navbar: React.FC = () => {
 
             {isSmall && (
                 <aside
-                    className={`grid z-[999] fixed top-0 bg-white min-w-full min-h-full h-screen w-screen shrink-0 | md:transition-all md:w-[28rem] md:min-w-0 md:right-0 md:rounded-l-2xl`}
+                    className={`grid z-[999] fixed top-0 inset-0 bg-white min-w-full min-h-full h-screen w-screen shrink-0 | md:transition-all md:w-[28rem] md:min-w-0 md:right-0 md:rounded-l-2xl`}
                 >
                     <section className="flex justify-between items-center py-4 px-[50px] top-0 right-0 font-plusJakarta h-[4.5rem] rounded-lg | md:px-[72px] md:justify-end">
                         <div className="flex md:hidden">
