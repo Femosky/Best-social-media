@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-// import { useNavbar } from '../contexts/NavbarContext';
+import { useNavbar } from '../contexts/NavbarContext';
 
-export const Navbar: React.FC = () => {
-    const [isSmall, setIsSmall] = useState(false);
+export function Navbar() {
+    const { isSmall, setIsSmall } = useNavbar();
     const { setIsLoginToggle, setIsSignupToggle } = useAuth();
 
     function loginToggle() {
@@ -51,7 +51,7 @@ export const Navbar: React.FC = () => {
                 }`}
             >
                 <div className="">
-                    <Link to="/">
+                    <Link to="/" reloadDocument>
                         <h1 className="text-[20px] font-extrabold leading-[30px] tracking-[3px] text-gray-900">BEST</h1>
                     </Link>
                 </div>
@@ -82,11 +82,11 @@ export const Navbar: React.FC = () => {
                 >
                     <section className="flex justify-between items-center py-4 px-[50px] top-0 right-0 font-plusJakarta h-[4.5rem] rounded-lg | md:px-[72px] md:justify-end">
                         <div className="flex md:hidden">
-                            <a href="/">
+                            <Link to="/" reloadDocument>
                                 <h1 className="text-[20px] font-extrabold leading-[30px] tracking-[3px] text-gray-900">
                                     BEST
                                 </h1>
-                            </a>
+                            </Link>
                         </div>
 
                         <Button onClick={close} className="flex" size="round">
@@ -126,4 +126,4 @@ export const Navbar: React.FC = () => {
             {isSmall && <div onClick={close} className="lg:hidden bg-black inset-0 z-999 fixed opacity-50" />}
         </>
     );
-};
+}

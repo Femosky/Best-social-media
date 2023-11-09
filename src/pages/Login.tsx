@@ -6,8 +6,6 @@ import { BestGradient } from '../components/BestGradient';
 import { useAuth } from '../contexts/AuthContext';
 
 export function Login() {
-    // const [isLoginToggle, setIsLoginToggle] = useState(false);
-    // const [isSignupToggle, setIsSignupToggle] = useState(true);
     const { isLoginToggle, setIsLoginToggle, isSignupToggle, setIsSignupToggle } = useAuth();
 
     function loginToggle() {

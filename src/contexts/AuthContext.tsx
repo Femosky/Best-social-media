@@ -1,8 +1,5 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
-
-type AuthContextProps = {
-    children?: ReactNode;
-};
+import { createContext, useContext, useState } from 'react';
+import { ChildrenProps } from '../App';
 
 const AuthContext = createContext<
     | {
@@ -14,7 +11,7 @@ const AuthContext = createContext<
     | undefined
 >(undefined);
 
-export function AuthProvider({ children }: AuthContextProps) {
+export function AuthProvider({ children }: ChildrenProps) {
     const [isLoginToggle, setIsLoginToggle] = useState(false);
     const [isSignupToggle, setIsSignupToggle] = useState(true);
 

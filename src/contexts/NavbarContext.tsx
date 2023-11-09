@@ -1,8 +1,5 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
-
-type NavbarContextProps = {
-    children?: ReactNode;
-};
+import { createContext, useContext, useState } from 'react';
+import { ChildrenProps } from '../App';
 
 const NavContext = createContext<
     | {
@@ -12,7 +9,7 @@ const NavContext = createContext<
     | undefined
 >(undefined);
 
-export function NavbarProvider({ children }: NavbarContextProps) {
+export function NavbarProvider({ children }: ChildrenProps) {
     const [isSmall, setIsSmall] = useState(false);
 
     return <NavContext.Provider value={{ isSmall, setIsSmall }}>{children}</NavContext.Provider>;
@@ -21,7 +18,7 @@ export function NavbarProvider({ children }: NavbarContextProps) {
 export function useNavbar() {
     const context = useContext(NavContext);
     if (!context) {
-        throw new Error('useNavbar must be used within an AuthProvider');
+        throw new Error('useNavbar must be used within an NavbarProvider');
     }
     return context;
 }
