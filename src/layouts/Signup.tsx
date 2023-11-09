@@ -67,7 +67,6 @@ export function Signup({ className, ...props }: formProps) {
 
             console.log('Signup successful: ', res.data);
 
-            // setIsLoading(false);
             setIsAccountExisting(false);
             setIsSignupSuccessful(true);
 
