@@ -77,6 +77,8 @@ export function Signup({ className, ...props }: formProps) {
         } catch (error: any) {
             setIsLoading(false);
             setIsSignupSuccessful(false);
+            setIsAccountExisting(false);
+            setErrorVisible(false);
 
             console.log('Error signing up: ', error);
 
