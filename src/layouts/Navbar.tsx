@@ -41,7 +41,15 @@ export function Navbar() {
         return () => {
             window.removeEventListener('resize', handler);
         };
-    }, []);
+    }, [setIsSmall]);
+
+    useEffect(() => {
+        document.body.classList.toggle('overflow-hidden', isSmall);
+
+        return () => {
+            document.body.classList.remove('overflow-hidden');
+        };
+    }, [isSmall]);
 
     return (
         <>
@@ -123,7 +131,9 @@ export function Navbar() {
                 </aside>
             )}
 
-            {isSmall && <div onClick={close} className="lg:hidden bg-black inset-0 z-999 fixed opacity-50" />}
+            {isSmall && <div onClick={close} className="lg:hidden bg-black inset-0 fixed z-[998] opacity-50" />}
+
+            {/* <div onClick={close} className="lg:hidden fixed inset-0 z-[999] bg-secondary-dark opacity-50" /> */}
         </>
     );
 }

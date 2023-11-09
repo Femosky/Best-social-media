@@ -5,7 +5,7 @@ import { BestGradient } from '../components/BestGradient';
 
 export function Home() {
     return (
-        <div className="grid px-4 lg:grid-cols-2 flex-grow-1 font-plusJakarta min-w-[230px]">
+        <div className={`grid px-4 lg:grid-cols-2 flex-grow-1 font-plusJakarta min-w-[230px]`}>
             <div className="order-2 flex justify-center mt-[30px] | md:mt-[60px] | lg:order-1 lg:justify-end lg:pe-28 lg:mt-0">
                 <img className="w-[350px] | xs:w-[500px]" src={img1} alt="" />
             </div>
@@ -25,7 +25,3 @@ export function Home() {
         </div>
     );
 }
-
-// #FF00B8
-// #004BDD
-// #8F00FF

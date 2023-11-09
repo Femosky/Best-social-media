@@ -6,7 +6,7 @@ import { Login } from './pages/Login';
 import { AuthProvider } from './contexts/AuthContext';
 import { Profile } from './pages/Profile';
 import { Error404 } from './pages/Error404';
-import { NavbarProvider, useNavbar } from './contexts/NavbarContext';
+import { NavbarProvider } from './contexts/NavbarContext';
 import { ReactNode } from 'react';
 
 export type ChildrenProps = {
@@ -30,12 +30,10 @@ function App() {
 }
 
 function AppContent() {
-    const { isSmall } = useNavbar();
-
     return (
         <>
             <Navbar />
-            <div className={`mt-10 font-plusJakarta ${!isSmall ? 'overflow-hidden' : ''}`}>
+            <div className={`mt-10 font-plusJakarta`}>
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />

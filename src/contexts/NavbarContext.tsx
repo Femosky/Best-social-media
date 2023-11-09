@@ -15,6 +15,7 @@ export function NavbarProvider({ children }: ChildrenProps) {
     return <NavContext.Provider value={{ isSmall, setIsSmall }}>{children}</NavContext.Provider>;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useNavbar() {
     const context = useContext(NavContext);
     if (!context) {
