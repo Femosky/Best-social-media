@@ -6,6 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingSpinner } from '../components/LoadingSpinner';
+import axios from 'axios';
 
 type formProps = ComponentProps<'form'>;
 
@@ -30,6 +31,12 @@ export function SignIn({ className, ...props }: formProps) {
 
     async function onSubmit(data: FormValues) {
         setIsLoading(true);
+
+        try {
+            const apiUrl = 'https://socialmediaapp-ugrr.onrender.com/login';
+
+            const res = await axios.post(apiUrl, data);
+        } catch 
     }
 
     return (
