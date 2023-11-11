@@ -19,13 +19,13 @@ export function Login() {
     }
 
     return (
-        <div className="grid px-4 mb-10 flex-grow-1 font-plusJakarta w-screen min-w-[230px] | lg:justify-items-start lg:grid-cols-2 h-auto aspect-video flex-grow-1">
+        <div className="grid mb-10 flex-grow-1 font-plusJakarta w-screen min-w-[230px] | lg:justify-items-start lg:grid-cols-2 h-auto aspect-video flex-grow-1">
             <div className="hidden lg:flex lg:justify-self-end lg:pe-28 justify-center mt-[60px] lg:mt-0">
                 <img className="w-[500px] h-min" src={img1} alt="" />
             </div>
             <div className="flex flex-col w-full max-w-[454px] justify-self-center | md:w-[454px] | lg:justify-self-start">
                 <h1 className="text-[38px] sm:text-[56px] mb-14 text-center leading-[45px] font-extrabold | md:leading-[60px] md:w-full | lg:leading-[80px] lg:mb-9">
-                    Join <BestGradient />
+                    Join <BestGradient content="Best" />
                 </h1>
                 <div className="mb-6 w-full">
                     <Button

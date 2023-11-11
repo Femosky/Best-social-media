@@ -9,8 +9,11 @@ export default {
                 secondary: {
                     // DEFAULT: colors.neutral[100],
                     DEFAULT: '#ffffff',
+                    normal: '#1D1E24',
                     // hover: colors.neutral[200],
+                    hot: colors.red[700],
                     hover: colors.neutral[100],
+                    ['hot-hover']: colors.red[800],
                     ['hover-hover']: colors.neutral[300],
                     border: colors.neutral[400],
                     text: colors.zinc[500],

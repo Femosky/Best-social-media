@@ -1,4 +1,4 @@
-import { ComponentProps, useState } from 'react';
+import { ComponentProps, useEffect, useState } from 'react';
 import { Input } from '../components/Input';
 import { twMerge } from 'tailwind-merge';
 import { Button } from '../components/Button';
@@ -8,12 +8,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { LoadingSpinner } from '../components/LoadingSpinner';
+import { useAuth } from '../contexts/AuthContext';
 
 type formProps = ComponentProps<'form'>;
 
 type FormValues = {
     firstname: string;
     lastname: string;
+    username: string;
     email: string;
     password: string;
     confirmPassword: string;
@@ -21,6 +23,8 @@ type FormValues = {
 
 export function Signup({ className, ...props }: formProps) {
     const navigate = useNavigate();
+
+    const { authEmail, setAuthEmail, setIsLoggedIn } = useAuth();
 
     const [isSignupSuccessful, setIsSignupSuccessful] = useState(false);
     const [isAccountExisting, setIsAccountExisting] = useState(false);
@@ -30,6 +34,7 @@ export function Signup({ className, ...props }: formProps) {
     const schema = yup.object().shape({
         firstname: yup.string().required('Enter your first name'),
         lastname: yup.string().required('Enter your surname'),
+        username: yup.string().required('Enter a username'),
         email: yup.string().email('Enter a real email address').required('Enter your email address'),
         password: yup
             .string()
@@ -67,11 +72,13 @@ export function Signup({ className, ...props }: formProps) {
 
             console.log('Signup successful: ', res.data);
 
+            setAuthEmail(dataForPost.email);
             setIsAccountExisting(false);
             setIsSignupSuccessful(true);
 
             setTimeout(() => {
-                navigate('/profile');
+                navigate('/home');
+                setIsLoggedIn(true);
             }, 3000);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
@@ -99,6 +106,10 @@ export function Signup({ className, ...props }: formProps) {
             }
         }
     }
+
+    useEffect(() => {
+        window.localStorage.setItem('EMAIL_POST_DATA', JSON.stringify(authEmail));
+    }, [authEmail]);
 
     return (
         <form {...props} className={twMerge('flex flex-col gap-6 w-full', className)} onSubmit={handleSubmit(onSubmit)}>
@@ -131,6 +142,19 @@ export function Signup({ className, ...props }: formProps) {
                     render={({ field }) => <Input id="lastname" placeholder="Surname" {...field} />}
                 />
                 <p className="text-red-400">{errors.lastname?.message}</p>
+            </div>
+
+            <div className="flex flex-col">
+                <label htmlFor="username" className="mb-[16px] font-inter font-bold text-sm text-[#1D1E24]">
+                    Username
+                </label>
+                <Controller
+                    name="username"
+                    control={control}
+                    defaultValue=""
+                    render={({ field }) => <Input id="username" placeholder="Username" {...field} />}
+                />
+                <p className="text-red-400">{errors.username?.message}</p>
             </div>
 
             <div className="flex flex-col">

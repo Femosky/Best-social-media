@@ -1,23 +1,107 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '../components/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavbar } from '../contexts/NavbarContext';
+import axios from 'axios';
+import { LoadingSpinner } from '../components/LoadingSpinner';
 
 export function Navbar() {
-    const { isSmall, setIsSmall } = useNavbar();
-    const { setIsLoginToggle, setIsSignupToggle } = useAuth();
+    const navigate = useNavigate();
+    // const location = useLocation();
+    // const currentPath = location.pathname;
 
-    function loginToggle() {
+    const [isLoading, setIsLoading] = useState(false);
+
+    const { isSmall, setIsSmall } = useNavbar();
+    const {
+        setIsLoginToggle,
+        setIsSignupToggle,
+        isLoggedIn,
+        setIsLoggedIn,
+        isInHome,
+        setIsInHome,
+        isInJungle,
+        setIsInJungle,
+        isInStudio,
+        setIsInStudio,
+    } = useAuth();
+
+    // Sign up and login switch toggles
+
+    function loginSwitchToggle() {
         setIsLoginToggle(true);
         setIsSignupToggle(false);
     }
 
-    function signupToggle() {
+    function signupSwitchToggle() {
         setIsSignupToggle(true);
         setIsLoginToggle(false);
     }
+
+    // function loginToggle() {
+    //     setIsLoggedIn(true);
+
+    //     setIsInHome(true);
+    //     setIsInJungle(false);
+    //     setIsInStudio(false);
+    // }
+
+    async function logout() {
+        // setIsLoading(false);
+
+        try {
+            const apirUrl = 'https://socialmediaapp-ugrr.onrender.com/logout';
+
+            const res = await axios.get(apirUrl);
+
+            console.log('Success: ', res.data);
+            setIsLoggedIn(false);
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            setIsLoading(false);
+            navigate('*');
+
+            if (error.response && error.response.data) {
+                const errorMessage = error.response.data.message;
+
+                if (errorMessage === 'User not authenticated') {
+                    console.log('error: ', errorMessage);
+                    console.log('user indeed not authenticated');
+                } else {
+                    console.log('error: ', error.response);
+                }
+            } else {
+                console.log('error: ', error.response);
+            }
+        }
+    }
+
+    function logoutToggle() {
+        logout();
+    }
+
+    function homeToggle() {
+        setIsInHome(true);
+        setIsInJungle(false);
+        setIsInStudio(false);
+    }
+
+    function jungleToggle() {
+        setIsInHome(false);
+        setIsInJungle(true);
+        setIsInStudio(false);
+    }
+
+    function studioToggle() {
+        setIsInHome(false);
+        setIsInJungle(false);
+        setIsInStudio(true);
+    }
+
+    // Screen size behaviour
 
     function toggle() {
         setIsSmall((prev) => !prev);
@@ -54,7 +138,7 @@ export function Navbar() {
     return (
         <>
             <div
-                className={`flex w-full justify-between items-center bg-white py-4 px-[50px] sticky top-0 left-0 right-0 font-plusJakarta min-w-[230px] | md:px-[72px] ${
+                className={`flex w-full h-[4.5rem] justify-between items-center bg-white py-4 px-[50px] sticky top-0 left-0 right-0 font-plusJakarta min-w-[230px] | md:px-[72px] ${
                     isSmall && 'overscroll-none overflow-hidden'
                 }`}
             >
@@ -64,14 +148,88 @@ export function Navbar() {
                     </Link>
                 </div>
 
-                {!isSmall && (
+                {/* Managing the logged in State */}
+
+                {/* <div className="flex gap-4">
+                    {!isLoggedIn && (
+                        <Button onClick={loginToggle} variant="dark">
+                            Login
+                        </Button>
+                    )}
+
+                    {isLoggedIn && (
+                        <Button
+                            onClick={() => {
+                                setIsLoading(true);
+                                logoutToggle();
+                            }}
+                            className="flex justify-center items-center"
+                            variant="hot"
+                        >
+                            {isLoading ? (
+                                <>
+                                    <LoadingSpinner /> Logging out
+                                </>
+                            ) : (
+                                'Logout'
+                            )}
+                        </Button>
+                    )}
+
+                    <Button onClick={() => navigate('/home')} variant="dark">
+                        Home
+                    </Button>
+                </div> */}
+
+                {isLoggedIn && !isSmall && (
+                    <>
+                        <section className="hidden lg:flex gap-6">
+                            <Button onClick={homeToggle} variant={`${isInHome ? 'dark' : 'light'}`}>
+                                Home
+                            </Button>
+                            <Button onClick={jungleToggle} variant={`${isInJungle ? 'dark' : 'light'}`}>
+                                Jungle
+                            </Button>
+                            <Button onClick={studioToggle} variant={`${isInStudio ? 'dark' : 'light'}`}>
+                                Studio
+                            </Button>
+                        </section>
+                        <div>
+                            <Button
+                                onClick={() => {
+                                    setIsLoading(true);
+                                    logoutToggle();
+                                }}
+                                className="hidden lg:flex justify-center items-center"
+                                variant="hot"
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <LoadingSpinner /> Logging out
+                                    </>
+                                ) : (
+                                    'Logout'
+                                )}
+                            </Button>
+                            <Button
+                                onClick={toggle}
+                                className={`lg:hidden ${isSmall ? 'hidden' : 'flex'}`}
+                                size="round"
+                            >
+                                <Menu />
+                            </Button>
+                        </div>
+                    </>
+                )}
+
+                {!isSmall && !isLoggedIn && (
                     <div className="flex gap-4">
                         <div className="hidden lg:flex">
                             <Link to="/login">
-                                <Button onClick={loginToggle}>Login</Button>
+                                <Button onClick={loginSwitchToggle}>Login</Button>
                             </Link>
                             <Link to="/login">
-                                <Button onClick={signupToggle} className="hover:font-semibold" variant={'dark'}>
+                                <Button onClick={signupSwitchToggle} className="hover:font-semibold" variant={'dark'}>
                                     Sign up
                                 </Button>
                             </Link>
@@ -102,38 +260,60 @@ export function Navbar() {
                         </Button>
                     </section>
                     <section>
-                        <div className="flex flex-col items-center gap-10">
-                            <Link to="/login">
-                                <Button
-                                    className="bg-secondary-hover w-28"
-                                    onClick={() => {
-                                        close();
-                                        loginToggle();
-                                    }}
-                                >
-                                    Login
-                                </Button>
-                            </Link>
-                            <Link to="/login">
-                                <Button
-                                    className="hover:font-semibold w-28"
-                                    onClick={() => {
-                                        close();
-                                        signupToggle();
-                                    }}
-                                    variant={'dark'}
-                                >
-                                    Sign up
-                                </Button>
-                            </Link>
-                        </div>
+                        {isSmall && !isLoggedIn && (
+                            <div className="flex flex-col items-center gap-10">
+                                <Link to="/login">
+                                    <Button
+                                        className="bg-secondary-hover w-28"
+                                        onClick={() => {
+                                            close();
+                                            loginSwitchToggle();
+                                        }}
+                                    >
+                                        Login
+                                    </Button>
+                                </Link>
+                                <Link to="/login">
+                                    <Button
+                                        className="hover:font-semibold w-28"
+                                        onClick={() => {
+                                            close();
+                                            signupSwitchToggle();
+                                        }}
+                                        variant={'dark'}
+                                    >
+                                        Sign up
+                                    </Button>
+                                </Link>
+                            </div>
+                        )}
+                        {isSmall && isLoggedIn && (
+                            <>
+                                <div className="flex flex-col items-center gap-10">
+                                    <Button
+                                        onClick={() => {
+                                            setIsLoading(true);
+                                            logoutToggle();
+                                        }}
+                                        className="flex justify-center items-center"
+                                        variant="hot"
+                                    >
+                                        {isLoading ? (
+                                            <>
+                                                <LoadingSpinner /> Logging out
+                                            </>
+                                        ) : (
+                                            'Logout'
+                                        )}
+                                    </Button>
+                                </div>
+                            </>
+                        )}
                     </section>
                 </aside>
             )}
 
             {isSmall && <div onClick={close} className="lg:hidden bg-black inset-0 fixed z-[998] opacity-50" />}
-
-            {/* <div onClick={close} className="lg:hidden fixed inset-0 z-[999] bg-secondary-dark opacity-50" /> */}
         </>
     );
 }

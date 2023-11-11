@@ -1,6 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 import { Input } from '../components/Input';
-import { ComponentProps, useState } from 'react';
+import { ComponentProps, useEffect, useState } from 'react';
 import { Button } from '../components/Button';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 type formProps = ComponentProps<'form'>;
 
@@ -17,10 +18,14 @@ type FormValues = {
 };
 
 export function SignIn({ className, ...props }: formProps) {
+    const { authEmail, setAuthEmail } = useAuth();
+
     const [isLoading, setIsLoading] = useState(false);
     const [isLoginSuccessful, setIsLoginSuccessful] = useState(false);
     const [isCredentials, setIsCredentials] = useState(false);
     const [isNetworkFailure, setIsNetworkFailure] = useState(false);
+
+    const { setIsInHome, setIsInJungle, setIsInStudio, setIsLoggedIn } = useAuth();
 
     const navigate = useNavigate();
 
@@ -41,12 +46,21 @@ export function SignIn({ className, ...props }: formProps) {
         try {
             const apiUrl = 'https://socialmediaapp-ugrr.onrender.com/login';
 
-            const res = await axios.post(apiUrl, data);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { ...dataForPost } = data;
 
+            const res = await axios.post(apiUrl, dataForPost);
+
+            setAuthEmail(dataForPost.email);
             setIsLoginSuccessful(true);
 
             setTimeout(() => {
-                navigate('/profile');
+                setIsInHome(true);
+                setIsInJungle(false);
+                setIsInStudio(false);
+
+                navigate('/home');
+                setIsLoggedIn(true);
             }, 3000);
 
             console.log('Success message: ', res.data);
@@ -75,6 +89,10 @@ export function SignIn({ className, ...props }: formProps) {
             }
         }
     }
+
+    useEffect(() => {
+        window.localStorage.setItem('EMAIL_POST_DATA', JSON.stringify(authEmail));
+    }, [authEmail]);
 
     return (
         <form {...props} className={twMerge('flex flex-col gap-6 w-full', className)} onSubmit={handleSubmit(onSubmit)}>
