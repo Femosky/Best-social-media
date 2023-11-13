@@ -14,42 +14,55 @@ import rect13 from '../assets/images/rect-13.png';
 
 export const images = [
     {
+        id: '1',
         imageUrl: rect1,
     },
     {
+        id: '2',
         imageUrl: rect2,
     },
     {
+        id: '3',
         imageUrl: rect3,
     },
     {
+        id: '4',
         imageUrl: rect4,
     },
     {
+        id: '5',
         imageUrl: rect5,
     },
     {
+        id: '6',
         imageUrl: rect6,
     },
     {
+        id: '7',
         imageUrl: rect7,
     },
     {
+        id: '8',
         imageUrl: rect8,
     },
     {
+        id: '9',
         imageUrl: rect9,
     },
     {
+        id: '10',
         imageUrl: rect10,
     },
     {
+        id: '11',
         imageUrl: rect11,
     },
     {
+        id: '12',
         imageUrl: rect12,
     },
     {
+        id: '13',
         imageUrl: rect13,
     },
 ];
