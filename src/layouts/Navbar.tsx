@@ -104,6 +104,7 @@ export function Navbar() {
         if (storedValue && JSON.parse(storedValue) !== isLoggedIn) {
             setIsLoggedIn(JSON.parse(storedValue));
         }
+        console.log(storedValue);
     }, [isLoggedIn]);
 
     function logoutToggle() {
