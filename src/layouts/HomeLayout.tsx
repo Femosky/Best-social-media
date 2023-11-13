@@ -53,7 +53,6 @@ export function HomeLayout() {
                 const res = await axios.post(apiUrl, dataForPost);
 
                 setIsLoading(false);
-                // setUserProfileData(res.data);
                 console.log(userProfileData);
 
                 const newUserData: UserDataProps = {

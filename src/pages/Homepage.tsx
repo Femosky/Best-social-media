@@ -2,13 +2,8 @@ import { Link } from 'react-router-dom';
 import { Button } from '../components/Button';
 import modelOneIphoneImg from '../assets/images/model-one-iphone.png';
 import { BestGradient } from '../components/BestGradient';
-// import { useAuth } from '../contexts/AuthContext';
 
 export function Homepage() {
-    // const { isLoggedIn } = useAuth();
-
-    // console.log(isLoggedIn);
-
     return (
         <div className={`grid lg:grid-cols-2 flex-grow-1 font-plusJakarta min-w-[230px]`}>
             <div className="order-2 flex justify-center mt-[30px] | md:mt-[60px] | lg:order-1 lg:justify-end lg:pe-28 lg:mt-0">

@@ -25,7 +25,10 @@ export function AuthProvider({ children }: ChildrenProps) {
     const [isLoginToggle, setIsLoginToggle] = useState(false);
     const [isSignupToggle, setIsSignupToggle] = useState(true);
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(() => {
+        const storedValue = localStorage.getItem('IS_LOGGED_IN');
+        return storedValue ? JSON.parse(storedValue) : false;
+    });
 
     const [isInHome, setIsInHome] = useState(false);
     const [isInJungle, setIsInJungle] = useState(false);

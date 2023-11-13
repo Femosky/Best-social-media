@@ -24,7 +24,7 @@ type FormValues = {
 export function Signup({ className, ...props }: formProps) {
     const navigate = useNavigate();
 
-    const { authEmail, setAuthEmail, setIsLoggedIn, setIsLoginToggle, setIsSignupToggle } = useAuth();
+    const { authEmail, setAuthEmail, setIsLoginToggle, setIsSignupToggle } = useAuth();
 
     const [isSignupSuccessful, setIsSignupSuccessful] = useState(false);
     const [isAccountExisting, setIsAccountExisting] = useState(false);
@@ -80,7 +80,6 @@ export function Signup({ className, ...props }: formProps) {
                 setIsLoginToggle(true);
                 setIsSignupToggle(false);
                 navigate('/login');
-                setIsLoggedIn(true);
             }, 3000);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {

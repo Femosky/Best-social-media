@@ -61,6 +61,7 @@ export function SignIn({ className, ...props }: formProps) {
 
                 navigate('/home');
                 setIsLoggedIn(true);
+                localStorage.setItem('IS_LOGGED_IN', JSON.stringify(true));
             }, 3000);
 
             console.log('Success message: ', res.data);
@@ -70,6 +71,7 @@ export function SignIn({ className, ...props }: formProps) {
             setIsLoginSuccessful(false);
             setIsCredentials(false);
             setIsNetworkFailure(false);
+            localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
 
             if (error.response && error.response.data) {
                 const errorMessage = error.response.data.message;

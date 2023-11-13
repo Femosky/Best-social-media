@@ -62,19 +62,24 @@ export function Navbar() {
 
             console.log('Success: ', res.data);
 
-            if (res.data.active === false) {
-                setIsLoading(false);
+            if (res.data.message === 'You have been logged out sucessfully') {
                 setIsLoggedIn(false);
-            } else {
-                console.log('User still logged in');
-                reloadPage();
+                localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
+
+                const timer = setTimeout(() => {
+                    setIsLoading(false);
+                    navigate('/');
+                    // reloadPage();
+                }, 3000);
+
+                return () => clearTimeout(timer);
             }
-            setIsLoggedIn(false);
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             setIsLoading(false);
-            navigate('*');
+
+            localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
 
             if (error.response && error.response.data) {
                 const errorMessage = error.response.data.message;
@@ -88,8 +93,18 @@ export function Navbar() {
             } else {
                 console.log('error: ', error.response);
             }
+
+            reloadPage();
         }
     }
+
+    useEffect(() => {
+        const storedValue = localStorage.getItem('IS_LOGGED_OUT');
+
+        if (storedValue && JSON.parse(storedValue) !== isLoggedIn) {
+            setIsLoggedIn(JSON.parse(storedValue));
+        }
+    }, [isLoggedIn]);
 
     function logoutToggle() {
         logout();
