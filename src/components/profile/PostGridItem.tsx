@@ -13,6 +13,7 @@ export function PostGridItem({ id, imageUrl }: PostGridItem) {
         <div
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            key={id}
             className="border h-[11rem] relative"
         >
             <img className="object-cover" src={imageUrl} alt="" />
