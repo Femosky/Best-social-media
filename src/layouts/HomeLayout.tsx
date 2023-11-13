@@ -18,7 +18,7 @@ type UserDataProps = {
     numberOfBesties: number | null;
     numberOfPosts: number | null;
     profileDescription: string | null;
-    username: string;
+    username: string | null;
 };
 
 export function HomeLayout() {
@@ -63,6 +63,22 @@ export function HomeLayout() {
                     profileDescription: res.data.profile_description,
                     username: res.data.username,
                 };
+
+                if (newUserData.numberOfAdores === null) {
+                    newUserData.numberOfAdores = 0;
+                }
+
+                if (newUserData.numberOfBesties === null) {
+                    newUserData.numberOfBesties = 0;
+                }
+
+                if (newUserData.numberOfPosts === null) {
+                    newUserData.numberOfPosts = 0;
+                }
+
+                if (newUserData.profileDescription) {
+                    newUserData.profileDescription = '';
+                }
 
                 setUserProfileData(newUserData);
 
@@ -120,25 +136,28 @@ export function HomeLayout() {
 
     return (
         <div className="flex justify-center text-secondary-normal">
-            <div className="border flex flex-col max-w-[69rem] gap-[8.5rem]">
-                <section className="flex border gap-[6.25rem]">
-                    <div>
-                        <img className="max-w-[228px]" src={defaultImg} alt="" />
+            <div className="flex flex-col w-full min-w-[230px] gap-[2.5rem] | sm:gap-[4rem] | lg:gap-[8.5rem] md:w-[47rem] | lg:w-[69rem]">
+                <section className="flex w-full gap-4 flex-col |  | md:flex-row | lg:gap-[6.25rem]">
+                    <div className="w-fit self-center md:self-start">
+                        <img className="w-full h-28 max-w-[228px] | md:h-auto | lg:w-[228px]" src={defaultImg} alt="" />
                     </div>
-                    <div className="flex flex-col gap-6 justify-center">
-                        <h1 className="text-[40px] font-bold">
-                            {isLoading ? <LoadingSpinner /> : userProfileData?.username}
-                        </h1>
-                        <div className="flex gap-[6.25rem] | text-2xl font-bold">
-                            <div className="flex gap-6 items-center">
+                    <div className="flex flex-col w-full gap-6 justify-center">
+                        <div className="flex justify-center w-full | md:justify-start">
+                            <h1 className="w-fit text-center text-[20px] font-bold | xs:text-[30px] | md:text-left md:text-[40px]">
+                                {isLoading ? <LoadingSpinner /> : userProfileData?.username}
+                                {!userProfileData && 'Username'}
+                            </h1>
+                        </div>
+                        <div className="flex font-bold w-full gap-4 text-center justify-center text-[5vw] | xxs:text-lg | xs:text-xl | md:text-left md:justify-normal md:gap-12 | lg:text-2xl lg:gap-[6.25rem]">
+                            <div className="flex items-center gap-3 | md:gap-6">
                                 <h2>{isLoading ? <LoadingSpinner /> : userProfileData?.numberOfPosts}</h2>
                                 <h2>Posts</h2>
                             </div>
-                            <div className="flex gap-6 items-center">
+                            <div className="flex items-center gap-3 | md:gap-6">
                                 <h2>{isLoading ? <LoadingSpinner /> : userProfileData?.numberOfAdores}</h2>
                                 <h2>Adores</h2>
                             </div>
-                            <div className="flex gap-6 items-center">
+                            <div className="flex items-center gap-3 | md:gap-6">
                                 {isLoading ? <LoadingSpinner /> : <h2>{userProfileData?.numberOfBesties}</h2>}
                                 <h2>
                                     <BestGradient content="Besties" />

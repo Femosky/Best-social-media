@@ -36,7 +36,7 @@ function AppContent() {
     return (
         <>
             <Navbar />
-            <div className={`mt-10 font-plusJakarta px-4`}>
+            <div className={`mt-10 font-plusJakarta px-4 md:px-24`}>
                 <Routes>
                     <Route path="/" element={<Homepage />} />
                     <Route path="/login" element={<Login />} />

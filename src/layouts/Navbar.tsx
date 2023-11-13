@@ -40,13 +40,17 @@ export function Navbar() {
         setIsLoginToggle(false);
     }
 
-    // function loginToggle() {
-    //     setIsLoggedIn(true);
+    function loginToggle() {
+        setIsLoggedIn(true);
 
-    //     setIsInHome(true);
-    //     setIsInJungle(false);
-    //     setIsInStudio(false);
-    // }
+        setIsInHome(true);
+        setIsInJungle(false);
+        setIsInStudio(false);
+    }
+
+    function reloadPage() {
+        window.location.reload();
+    }
 
     async function logout() {
         // setIsLoading(false);
@@ -57,6 +61,14 @@ export function Navbar() {
             const res = await axios.get(apirUrl);
 
             console.log('Success: ', res.data);
+
+            if (res.data.active === false) {
+                setIsLoading(false);
+                setIsLoggedIn(false);
+            } else {
+                console.log('User still logged in');
+                reloadPage();
+            }
             setIsLoggedIn(false);
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -150,7 +162,7 @@ export function Navbar() {
 
                 {/* Managing the logged in State */}
 
-                {/* <div className="flex gap-4">
+                <div className="hidden gap-4 lg:flex">
                     {!isLoggedIn && (
                         <Button onClick={loginToggle} variant="dark">
                             Login
@@ -179,7 +191,7 @@ export function Navbar() {
                     <Button onClick={() => navigate('/home')} variant="dark">
                         Home
                     </Button>
-                </div> */}
+                </div>
 
                 {isLoggedIn && !isSmall && (
                     <>
@@ -259,8 +271,38 @@ export function Navbar() {
                             <X />
                         </Button>
                     </section>
-                    <section>
-                        {isSmall && !isLoggedIn && (
+                    <section className="flex flex-col gap-20">
+                        <div className="flex gap-4 justify-center | lg:hidden">
+                            {!isLoggedIn && (
+                                <Button onClick={loginToggle} variant="dark">
+                                    Login
+                                </Button>
+                            )}
+
+                            {isLoggedIn && (
+                                <Button
+                                    onClick={() => {
+                                        setIsLoading(true);
+                                        logoutToggle();
+                                    }}
+                                    className="flex justify-center items-center"
+                                    variant="hot"
+                                >
+                                    {isLoading ? (
+                                        <>
+                                            <LoadingSpinner /> Logging out
+                                        </>
+                                    ) : (
+                                        'Logout'
+                                    )}
+                                </Button>
+                            )}
+
+                            <Button onClick={() => navigate('/home')} variant="dark">
+                                Home
+                            </Button>
+                        </div>
+                        {!isLoggedIn && (
                             <div className="flex flex-col items-center gap-10">
                                 <Link to="/login">
                                     <Button
@@ -287,7 +329,8 @@ export function Navbar() {
                                 </Link>
                             </div>
                         )}
-                        {isSmall && isLoggedIn && (
+
+                        {isLoggedIn && (
                             <>
                                 <div className="flex flex-col items-center gap-10">
                                     <Button
