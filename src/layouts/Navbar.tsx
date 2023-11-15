@@ -204,44 +204,47 @@ export function Navbar() {
 
                 {/* Managing the logged in State */}
 
-                <div className="hidden gap-4 lg:flex">
-                    {!isLoggedIn && (
-                        <Button onClick={loginToggle} variant="dark">
-                            Login
-                        </Button>
-                    )}
+                <div className="hidden bg-red-400 rounded-lg px-4  | lg:flex lg:flex-col lg:items-center">
+                    <p className="text-white text-center font-bold">USE OTHER LOGIN BUTTONS. FOR DEVELOPERS</p>{' '}
+                    <div className="flex gap-4">
+                        {!isLoggedIn && (
+                            <Button onClick={loginToggle} variant="dark">
+                                Login
+                            </Button>
+                        )}
 
-                    {isLoggedIn && (
+                        {isLoggedIn && (
+                            <Button
+                                onClick={() => {
+                                    // setIsLoading(true);
+                                    // logoutToggle();
+                                    setIsLoggedIn(false);
+                                    localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
+                                }}
+                                className="flex justify-center items-center"
+                                variant="hot"
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <LoadingSpinner /> Logging out
+                                    </>
+                                ) : (
+                                    'Logout'
+                                )}
+                            </Button>
+                        )}
+
                         <Button
                             onClick={() => {
-                                // setIsLoading(true);
-                                // logoutToggle();
-                                setIsLoggedIn(false);
-                                localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
+                                homeToggle();
+                                if (!isInHomePath) navigate('/home');
+                                if (isSmall) close();
                             }}
-                            className="flex justify-center items-center"
-                            variant="hot"
+                            variant="dark"
                         >
-                            {isLoading ? (
-                                <>
-                                    <LoadingSpinner /> Logging out
-                                </>
-                            ) : (
-                                'Logout'
-                            )}
+                            Home
                         </Button>
-                    )}
-
-                    <Button
-                        onClick={() => {
-                            homeToggle();
-                            if (!isInHomePath) navigate('/home');
-                            if (isSmall) close();
-                        }}
-                        variant="dark"
-                    >
-                        Home
-                    </Button>
+                    </div>
                 </div>
 
                 {isLoggedIn && !isSmall && (
@@ -324,7 +327,7 @@ export function Navbar() {
                         </Button>
                     </section>
                     <section className="flex flex-col gap-20">
-                        <div className="flex gap-4 justify-center | lg:hidden">
+                        {/* <div className="flex gap-4 justify-center | lg:hidden">
                             {!isLoggedIn && (
                                 <Button onClick={loginToggle} variant="dark">
                                     Login
@@ -362,7 +365,54 @@ export function Navbar() {
                             >
                                 Home
                             </Button>
+                        </div> */}
+                        <div className="flex flex-col items-center bg-red-400 rounded-lg px-4  | lg:hidden">
+                            <p className="text-white text-center font-bold">
+                                USE OTHER LOGIN BUTTONS
+                                <br />
+                                FOR DEVELOPERS
+                            </p>
+                            <div className="flex gap-4">
+                                {!isLoggedIn && (
+                                    <Button onClick={loginToggle} variant="dark">
+                                        Login
+                                    </Button>
+                                )}
+
+                                {isLoggedIn && (
+                                    <Button
+                                        onClick={() => {
+                                            // setIsLoading(true);
+                                            // logoutToggle();
+                                            setIsLoggedIn(false);
+                                            localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
+                                        }}
+                                        className="flex justify-center items-center"
+                                        variant="hot"
+                                    >
+                                        {isLoading ? (
+                                            <>
+                                                <LoadingSpinner /> Logging out
+                                            </>
+                                        ) : (
+                                            'Logout'
+                                        )}
+                                    </Button>
+                                )}
+
+                                <Button
+                                    onClick={() => {
+                                        homeToggle();
+                                        if (!isInHomePath) navigate('/home');
+                                        if (isSmall) close();
+                                    }}
+                                    variant="dark"
+                                >
+                                    Home
+                                </Button>
+                            </div>
                         </div>
+
                         {!isLoggedIn && (
                             <div className="flex flex-col items-center gap-10">
                                 <Link to="/login">
