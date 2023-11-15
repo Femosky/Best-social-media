@@ -50,9 +50,9 @@ export function Navbar() {
         setIsInStudio(false);
     }
 
-    // function reloadPage() {
-    //     window.location.reload();
-    // }
+    function reloadPage() {
+        window.location.reload();
+    }
 
     async function logout() {
         // setIsLoading(false);
@@ -187,9 +187,19 @@ export function Navbar() {
                 }`}
             >
                 <div className="">
-                    <Link to="/" reloadDocument>
-                        <h1 className="text-[20px] font-extrabold leading-[30px] tracking-[3px] text-gray-900">BEST</h1>
-                    </Link>
+                    {/* <Link to="/" reloadDocument>
+                    </Link> */}
+
+                    <h1
+                        onClick={() => {
+                            isLoggedIn
+                                ? (window.location.href = currentPath) || reloadPage()
+                                : (window.location.href = '/');
+                        }}
+                        className="text-[20px] font-extrabold leading-[30px] tracking-[3px] text-gray-900"
+                    >
+                        BEST
+                    </h1>
                 </div>
 
                 {/* Managing the logged in State */}

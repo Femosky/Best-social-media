@@ -7,7 +7,7 @@ export function Footer() {
     const navigate = useNavigate();
     const location = useLocation();
     const currentPath = location.pathname;
-    const isInHomepagePath = currentPath !== '/';
+    const isInLoggedInPath = currentPath === '/home' || currentPath === '/jungle' || currentPath === '/studio';
 
     const { isLoggedIn, isInHome, setIsInHome, isInJungle, setIsInJungle, isInStudio, setIsInStudio } = useAuth();
 
@@ -56,11 +56,11 @@ export function Footer() {
 
     useEffect(() => {
         setIsMedium(isScreenMedium());
-    }, [isLoggedIn, isInHomepagePath]);
+    }, [isLoggedIn, isInLoggedInPath]);
 
     return (
         <>
-            {isMedium && isLoggedIn && isInHomepagePath && (
+            {isMedium && isLoggedIn && isInLoggedInPath && (
                 <div
                     className={`flex fixed bottom-0 z-[990] w-full min-w-[230px] bg-white shadow-[0px_-1px_2.4px_-1px_rgba(0,0,0,0.25)] h-[4.375rem] py-4 font-plusJakarta`}
                 >
