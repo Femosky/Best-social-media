@@ -19,6 +19,10 @@ const AuthContext = createContext<
           setAuthEmail: React.Dispatch<React.SetStateAction<string>>;
           authRes: string;
           setAuthRes: React.Dispatch<React.SetStateAction<string>>;
+          isCredentials: boolean;
+          setIsCredentials: React.Dispatch<React.SetStateAction<boolean>>;
+          isNetworkFailure: boolean;
+          setIsNetworkFailure: React.Dispatch<React.SetStateAction<boolean>>;
       }
     | undefined
 >(undefined);
@@ -39,6 +43,9 @@ export function AuthProvider({ children }: ChildrenProps) {
     const [authEmail, setAuthEmail] = useState('');
     const [authRes, setAuthRes] = useState('');
 
+    const [isCredentials, setIsCredentials] = useState(false);
+    const [isNetworkFailure, setIsNetworkFailure] = useState(false);
+
     return (
         <AuthContext.Provider
             value={{
@@ -58,6 +65,10 @@ export function AuthProvider({ children }: ChildrenProps) {
                 setAuthEmail,
                 authRes,
                 setAuthRes,
+                isCredentials,
+                setIsCredentials,
+                isNetworkFailure,
+                setIsNetworkFailure,
             }}
         >
             {children}

@@ -28,8 +28,9 @@ export function SignIn({ className, ...props }: formProps) {
 
     const [isLoading, setIsLoading] = useState(false);
     const [isLoginSuccessful, setIsLoginSuccessful] = useState(false);
-    const [isCredentials, setIsCredentials] = useState(false);
-    const [isNetworkFailure, setIsNetworkFailure] = useState(false);
+
+    const { isCredentials, setIsCredentials } = useAuth();
+    const { isNetworkFailure, setIsNetworkFailure } = useAuth();
 
     const { setIsInHome, setIsInJungle, setIsInStudio, setIsLoggedIn } = useAuth();
 

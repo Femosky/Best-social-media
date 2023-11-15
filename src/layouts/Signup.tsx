@@ -6,7 +6,7 @@ import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -22,9 +22,13 @@ type FormValues = {
 };
 
 export function Signup({ className, ...props }: formProps) {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const { authEmail, setAuthEmail, setIsLoginToggle, setIsSignupToggle } = useAuth();
+
+    // from Sign In
+    const { setIsCredentials } = useAuth();
+    const { setIsNetworkFailure } = useAuth();
 
     const [isSignupSuccessful, setIsSignupSuccessful] = useState(false);
     const [isAccountExisting, setIsAccountExisting] = useState(false);
@@ -77,9 +81,13 @@ export function Signup({ className, ...props }: formProps) {
             setIsSignupSuccessful(true);
 
             setTimeout(() => {
-                window.location.href = '/login';
                 setIsLoginToggle(true);
                 setIsSignupToggle(false);
+
+                setIsCredentials(false);
+                setIsNetworkFailure(false);
+
+                navigate('/login');
             }, 3000);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
