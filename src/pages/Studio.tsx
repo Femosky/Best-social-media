@@ -21,7 +21,13 @@ type UserDataProps = {
 };
 
 export function Studio() {
-    const { setIsInHome, setIsInJungle, setIsInStudio } = useAuth();
+    const { isLoggedIn, setIsInHome, setIsInJungle, setIsInStudio } = useAuth();
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            window.location.href = '/';
+        }
+    }, [isLoggedIn]);
 
     useEffect(() => {
         setIsInHome(false);

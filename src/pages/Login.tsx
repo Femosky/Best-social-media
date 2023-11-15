@@ -4,9 +4,10 @@ import { SignIn } from '../layouts/SignIn';
 import { Button } from '../components/Button';
 import { BestGradient } from '../components/BestGradient';
 import { useAuth } from '../contexts/AuthContext';
+import { useEffect } from 'react';
 
 export function Login() {
-    const { isLoginToggle, setIsLoginToggle, isSignupToggle, setIsSignupToggle } = useAuth();
+    const { isLoggedIn, isLoginToggle, setIsLoginToggle, isSignupToggle, setIsSignupToggle } = useAuth();
 
     function loginToggle() {
         setIsLoginToggle(true);
@@ -17,6 +18,12 @@ export function Login() {
         setIsSignupToggle(true);
         setIsLoginToggle(false);
     }
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            window.location.href = '/';
+        }
+    }, [isLoggedIn]);
 
     return (
         <div className="grid mb-10 font-plusJakarta min-w-[230px] | lg:justify-items-start lg:grid-cols-2">
