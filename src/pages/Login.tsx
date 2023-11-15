@@ -20,8 +20,8 @@ export function Login() {
     }
 
     useEffect(() => {
-        if (!isLoggedIn) {
-            window.location.href = '/';
+        if (isLoggedIn) {
+            window.location.href = '/home';
         }
     }, [isLoggedIn]);
 
