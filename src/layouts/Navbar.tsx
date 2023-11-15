@@ -366,7 +366,7 @@ export function Navbar() {
                                 Home
                             </Button>
                         </div> */}
-                        <div className="flex flex-col items-center bg-red-400 rounded-lg px-4  | lg:hidden">
+                        <div className="flex flex-col items-center bg-red-400 rounded-lg px-4 w-fit self-center | lg:hidden">
                             <p className="text-white text-center font-bold">
                                 USE OTHER LOGIN BUTTONS
                                 <br />
