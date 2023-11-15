@@ -77,9 +77,9 @@ export function Signup({ className, ...props }: formProps) {
             setIsSignupSuccessful(true);
 
             setTimeout(() => {
+                window.location.href = '/login';
                 setIsLoginToggle(true);
                 setIsSignupToggle(false);
-                window.location.href = '/login';
             }, 3000);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
