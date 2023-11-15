@@ -145,7 +145,7 @@ export function StudioLayout() {
             <div className="flex flex-col w-full min-w-[230px] gap-[2.5rem] | sm:gap-[4rem] | lg:gap-[8.5rem] md:w-[47rem] | lg:w-[69rem]">
                 <section className="flex w-full gap-4 flex-col |  | md:flex-row | lg:gap-[6.25rem]">
                     <div className="w-fit self-center md:self-start">
-                        <img className="w-full h-28 max-w-[228px] | md:h-auto | lg:w-[228px]" src={defaultImg} alt="" />
+                        <img className="w-28 max-w-[228px] | md:h-auto | lg:w-[228px]" src={defaultImg} alt="" />
                     </div>
                     <div className="flex flex-col w-full gap-6 justify-center">
                         <div className="flex justify-center w-full | md:justify-start">
