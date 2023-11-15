@@ -128,7 +128,7 @@ export function SignIn({ className, ...props }: formProps) {
         <form {...props} className={twMerge('flex flex-col gap-6 w-full', className)} onSubmit={handleSubmit(onSubmit)}>
             <div className={`${isLoginSuccessful ? 'text-green-500' : 'text-red-400'}`}>
                 {isNetworkFailure && !isCredentials ? 'Network failure. Try again.' : ''}
-                {!isNetworkFailure && isCredentials ? 'Username or password incorrect' : ''}
+                {!isNetworkFailure && isCredentials && !isLoginSuccessful ? 'Username or password incorrect' : ''}
                 {isLoginSuccessful && 'Login successful'}
             </div>
             <div className="flex flex-col">

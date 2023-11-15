@@ -10,6 +10,8 @@ import { NavbarProvider } from './contexts/NavbarContext';
 import { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Footer } from './layouts/Footer';
+import { Jungle } from './pages/Jungle';
+import { Studio } from './pages/Studio';
 
 export type ChildrenProps = {
     children?: ReactNode;
@@ -40,8 +42,10 @@ function AppContent() {
             <div className={`mt-10 font-plusJakarta px-4 md:px-24 flex-1`}>
                 <Routes>
                     <Route path="/" element={<Homepage />} />
+                    <Route path="home" element={<Home />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/home" element={<Home />} />
+                    <Route path="jungle" element={<Jungle />} />
+                    <Route path="studio" element={<Studio />} />
                     <Route path="*" element={<Error404 />} />
                 </Routes>
             </div>

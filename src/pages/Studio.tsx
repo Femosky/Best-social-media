@@ -20,7 +20,15 @@ type UserDataProps = {
     username: string | null;
 };
 
-export function StudioLayout() {
+export function Studio() {
+    const { setIsInHome, setIsInJungle, setIsInStudio } = useAuth();
+
+    useEffect(() => {
+        setIsInHome(false);
+        setIsInJungle(false);
+        setIsInStudio(true);
+    }, [setIsInHome, setIsInJungle, setIsInStudio]);
+
     const [isPostsToggle, setIsPostsToggle] = useState(true);
     const [isSnapsToggle, setisSnapsToggle] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -89,7 +97,8 @@ export function StudioLayout() {
                 }
 
                 if (newUserData.profileDescription === null) {
-                    newUserData.profileDescription = 'no username';
+                    newUserData.profileDescription =
+                        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero molestias exercitationem inventore illo, tenetur ut cumque itaque.';
                 }
 
                 setUserProfileData(newUserData);
@@ -126,7 +135,9 @@ export function StudioLayout() {
         }
 
         fetchData();
-    }, [authEmail, userProfileData]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [authEmail, authRes]);
+    // }, [authEmail, authRes, userProfileData]);
 
     function postsToggle() {
         setIsPostsToggle(true);
@@ -161,7 +172,11 @@ export function StudioLayout() {
             <div className="flex flex-col w-full min-w-[230px] gap-[2.5rem] | sm:gap-[4rem] | lg:gap-[8.5rem] md:w-[47rem] | lg:w-[69rem]">
                 <section className="flex w-full gap-4 flex-col |  | md:flex-row | lg:gap-[6.25rem]">
                     <div className="w-fit self-center md:self-start">
-                        <img className="w-28 max-w-[228px] | md:h-auto | lg:w-[228px]" src={defaultImg} alt="" />
+                        <img
+                            className="w-28 max-w-[228px] | md:h-auto md:w-[170px] | lg:w-[228px]"
+                            src={defaultImg}
+                            alt=""
+                        />
                     </div>
                     <div className="flex flex-col w-full gap-6 justify-center">
                         <div className="flex justify-center w-full | md:justify-start">
@@ -186,7 +201,7 @@ export function StudioLayout() {
                                 </h2>
                             </div>
                         </div>
-                        <p className="font-inter">
+                        <p className="font-inter text-center | md:text-start">
                             {isLoading ? <LoadingSpinner /> : userProfileData?.profileDescription}
                         </p>
                     </div>

@@ -92,14 +92,12 @@ export function Navbar() {
         } catch (error: any) {
             setIsLoading(false);
 
-            // for beta testing - SET TO TRUE WHEN DONE
-            localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
-
             if (error.response && error.response.data) {
                 const errorMessage = error.response.data.message;
 
                 if (errorMessage === 'User not authenticated') {
                     console.log('error: ', errorMessage);
+                    console.log('error: ', error.response);
                     console.log('user indeed not authenticated');
                 } else {
                     console.log('error: ', error.response);
@@ -108,7 +106,8 @@ export function Navbar() {
                 console.log('error: ', error.response);
             }
 
-            // reloadPage();
+            // for beta testing - SET TO TRUE WHEN DONE
+            // localStorage.setItem('IS_LOGGED_IN', JSON.stringify(true));
         }
     }
 
@@ -129,18 +128,21 @@ export function Navbar() {
         setIsInHome(true);
         setIsInJungle(false);
         setIsInStudio(false);
+        navigate('/home');
     }
 
     function jungleToggle() {
         setIsInHome(false);
         setIsInJungle(true);
         setIsInStudio(false);
+        navigate('/jungle');
     }
 
     function studioToggle() {
         setIsInHome(false);
         setIsInJungle(false);
         setIsInStudio(true);
+        navigate('/studio');
     }
 
     // Screen size behaviour
@@ -180,7 +182,7 @@ export function Navbar() {
     return (
         <>
             <div
-                className={`flex z-[990] shadow-[-1px_0px_2.4px_-1px_rgba(0,0,0,0.25)] w-full h-[4.5rem] justify-between items-center bg-white py-4 px-[50px] sticky top-0 left-0 right-0 font-plusJakarta min-w-[230px] | md:px-[72px] ${
+                className={`flex z-[995] shadow-[-1px_0px_2.4px_-1px_rgba(0,0,0,0.25)] w-full h-[4.5rem] justify-between items-center bg-white py-4 px-[50px] sticky top-0 left-0 right-0 font-plusJakarta min-w-[230px] | md:px-[72px] ${
                     isSmall && 'overscroll-none overflow-hidden'
                 }`}
             >
@@ -202,8 +204,10 @@ export function Navbar() {
                     {isLoggedIn && (
                         <Button
                             onClick={() => {
-                                setIsLoading(true);
-                                logoutToggle();
+                                // setIsLoading(true);
+                                // logoutToggle();
+                                setIsLoggedIn(false);
+                                localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
                             }}
                             className="flex justify-center items-center"
                             variant="hot"
@@ -320,8 +324,10 @@ export function Navbar() {
                             {isLoggedIn && (
                                 <Button
                                     onClick={() => {
-                                        setIsLoading(true);
-                                        logoutToggle();
+                                        // setIsLoading(true);
+                                        // logoutToggle();
+                                        setIsLoggedIn(false);
+                                        localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
                                     }}
                                     className="flex justify-center items-center"
                                     variant="hot"

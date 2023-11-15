@@ -208,7 +208,7 @@ export function Signup({ className, ...props }: formProps) {
 
                 {isLoading && isSignupSuccessful && (
                     <>
-                        <LoadingSpinner /> Logging you in
+                        <LoadingSpinner /> Redirecting you to Login
                     </>
                 )}
             </Button>

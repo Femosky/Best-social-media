@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
-export function Home() {
+export function Jungle() {
     const { setIsInHome, setIsInJungle, setIsInStudio } = useAuth();
 
     useEffect(() => {
-        setIsInHome(true);
-        setIsInJungle(false);
+        setIsInHome(false);
+        setIsInJungle(true);
         setIsInStudio(false);
     }, [setIsInHome, setIsInJungle, setIsInStudio]);
 
-    return <div>HOME</div>;
+    return <div>JUNGLE</div>;
 }

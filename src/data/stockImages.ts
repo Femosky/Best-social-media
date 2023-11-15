@@ -16,53 +16,66 @@ export const images = [
     {
         id: '1',
         imageUrl: rect1,
+        likes: 17,
     },
     {
         id: '2',
         imageUrl: rect2,
+        likes: 12,
     },
     {
         id: '3',
         imageUrl: rect3,
+        likes: 1,
     },
     {
         id: '4',
         imageUrl: rect4,
+        likes: 0,
     },
     {
         id: '5',
         imageUrl: rect5,
+        likes: 90,
     },
     {
         id: '6',
         imageUrl: rect6,
+        likes: 7,
     },
     {
         id: '7',
         imageUrl: rect7,
+        likes: 301,
     },
     {
         id: '8',
         imageUrl: rect8,
+        likes: 14,
     },
     {
         id: '9',
         imageUrl: rect9,
+        likes: 5,
     },
     {
         id: '10',
         imageUrl: rect10,
+        likes: 233,
     },
     {
         id: '11',
         imageUrl: rect11,
+        likes: 230,
     },
     {
         id: '12',
         imageUrl: rect12,
+        likes: 1,
     },
     {
         id: '13',
         imageUrl: rect13,
+        likes: 17,
     },
 ];

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Button } from '../components/Button';
 import { useAuth } from '../contexts/AuthContext';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export function Footer() {
+    const navigate = useNavigate();
     const location = useLocation();
     const currentPath = location.pathname;
     const isInHomepagePath = currentPath !== '/';
@@ -20,18 +21,21 @@ export function Footer() {
         setIsInHome(true);
         setIsInJungle(false);
         setIsInStudio(false);
+        navigate('/home');
     }
 
     function jungleToggle() {
         setIsInHome(false);
         setIsInJungle(true);
         setIsInStudio(false);
+        navigate('/jungle');
     }
 
     function studioToggle() {
         setIsInHome(false);
         setIsInJungle(false);
         setIsInStudio(true);
+        navigate('/studio');
     }
 
     useEffect(() => {
