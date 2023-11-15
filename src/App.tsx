@@ -9,6 +9,7 @@ import { Error404 } from './pages/Error404';
 import { NavbarProvider } from './contexts/NavbarContext';
 import { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Footer } from './layouts/Footer';
 
 export type ChildrenProps = {
     children?: ReactNode;
@@ -36,7 +37,7 @@ function AppContent() {
     return (
         <>
             <Navbar />
-            <div className={`mt-10 font-plusJakarta px-4 md:px-24`}>
+            <div className={`mt-10 font-plusJakarta px-4 md:px-24 flex-1`}>
                 <Routes>
                     <Route path="/" element={<Homepage />} />
                     <Route path="/login" element={<Login />} />
@@ -44,6 +45,7 @@ function AppContent() {
                     <Route path="*" element={<Error404 />} />
                 </Routes>
             </div>
+            <Footer />
         </>
     );
 }

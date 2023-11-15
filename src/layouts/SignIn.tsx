@@ -46,6 +46,14 @@ export function SignIn({ className, ...props }: formProps) {
         try {
             const apiUrl = 'https://socialmediaapp-ugrr.onrender.com/login';
 
+            // const config = {
+            //     headers: {
+            //         accept: 'application/json',
+            //         'Content-Type': 'application/json',
+            //         credentials: 'include',
+            //     },
+            // };
+
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { ...dataForPost } = data;
 
@@ -56,6 +64,8 @@ export function SignIn({ className, ...props }: formProps) {
 
             setTimeout(() => {
                 setIsInHome(true);
+                localStorage.setItem('IS_LOGGED_IN', JSON.stringify(true));
+
                 setIsInJungle(false);
                 setIsInStudio(false);
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '../components/Button';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavbar } from '../contexts/NavbarContext';
 import axios from 'axios';
@@ -9,8 +9,9 @@ import { LoadingSpinner } from '../components/LoadingSpinner';
 
 export function Navbar() {
     const navigate = useNavigate();
-    // const location = useLocation();
-    // const currentPath = location.pathname;
+    const location = useLocation();
+    const currentPath = location.pathname;
+    const isInHomePath = currentPath === '/home' || currentPath === '/home/*';
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -42,6 +43,7 @@ export function Navbar() {
 
     function loginToggle() {
         setIsLoggedIn(true);
+        localStorage.setItem('IS_LOGGED_IN', JSON.stringify(true));
 
         setIsInHome(true);
         setIsInJungle(false);
@@ -57,6 +59,13 @@ export function Navbar() {
 
         try {
             const apirUrl = 'https://socialmediaapp-ugrr.onrender.com/logout';
+
+            // const config = {
+            //     headers: {
+            //         accept: 'application/json',
+            //         'Content-Type': 'application/json',
+            //     },
+            // };
 
             const res = await axios.get(apirUrl);
 
@@ -166,7 +175,7 @@ export function Navbar() {
     return (
         <>
             <div
-                className={`flex w-full h-[4.5rem] justify-between items-center bg-white py-4 px-[50px] sticky top-0 left-0 right-0 font-plusJakarta min-w-[230px] | md:px-[72px] ${
+                className={`flex z-[990] shadow-[-1px_0px_2.4px_-1px_rgba(0,0,0,0.25)] w-full h-[4.5rem] justify-between items-center bg-white py-4 px-[50px] sticky top-0 left-0 right-0 font-plusJakarta min-w-[230px] | md:px-[72px] ${
                     isSmall && 'overscroll-none overflow-hidden'
                 }`}
             >
@@ -204,7 +213,14 @@ export function Navbar() {
                         </Button>
                     )}
 
-                    <Button onClick={() => navigate('/home')} variant="dark">
+                    <Button
+                        onClick={() => {
+                            homeToggle();
+                            if (!isInHomePath) navigate('/home');
+                            if (isSmall) close();
+                        }}
+                        variant="dark"
+                    >
                         Home
                     </Button>
                 </div>
@@ -270,6 +286,7 @@ export function Navbar() {
                 )}
             </div>
 
+            {/* WHEN NAVBAR OVERLAY IS OPENED */}
             {isSmall && (
                 <aside
                     className={`grid z-[999] fixed top-0 overscroll-contain overflow-y-scroll overscroll-y-none bg-white min-w-full min-h-full h-screen w-screen shrink-0 | md:transition-all md:w-[28rem] md:min-w-0 md:right-0 md:rounded-l-2xl`}
@@ -314,7 +331,14 @@ export function Navbar() {
                                 </Button>
                             )}
 
-                            <Button onClick={() => navigate('/home')} variant="dark">
+                            <Button
+                                onClick={() => {
+                                    homeToggle();
+                                    if (!isInHomePath) navigate('/home');
+                                    if (isSmall) close();
+                                }}
+                                variant="dark"
+                            >
                                 Home
                             </Button>
                         </div>

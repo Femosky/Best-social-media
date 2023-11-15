@@ -46,6 +46,14 @@ export function HomeLayout() {
             try {
                 const apiUrl = 'https://socialmediaapp-ugrr.onrender.com/profile';
 
+                // const config = {
+                //     headers: {
+                //         accept: 'application/json',
+                //         'Content-Type': 'application/json',
+                //         credentials: 'include',
+                //     },
+                // };
+
                 const dataForPost: FormValues = {
                     email: authEmail,
                 };
