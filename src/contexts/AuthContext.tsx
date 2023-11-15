@@ -17,6 +17,8 @@ const AuthContext = createContext<
           setIsInStudio: React.Dispatch<React.SetStateAction<boolean>>;
           authEmail: string;
           setAuthEmail: React.Dispatch<React.SetStateAction<string>>;
+          authRes: string;
+          setAuthRes: React.Dispatch<React.SetStateAction<string>>;
       }
     | undefined
 >(undefined);
@@ -35,6 +37,7 @@ export function AuthProvider({ children }: ChildrenProps) {
     const [isInStudio, setIsInStudio] = useState(false);
 
     const [authEmail, setAuthEmail] = useState('');
+    const [authRes, setAuthRes] = useState('');
 
     return (
         <AuthContext.Provider
@@ -53,6 +56,8 @@ export function AuthProvider({ children }: ChildrenProps) {
                 setIsInStudio,
                 authEmail,
                 setAuthEmail,
+                authRes,
+                setAuthRes,
             }}
         >
             {children}

@@ -33,6 +33,7 @@ export function StudioLayout() {
     });
 
     const { authEmail, setAuthEmail } = useAuth();
+    const { authRes, setAuthRes } = useAuth();
 
     // const { data: FormValues } = useQuery(['username'], async () => {
 
@@ -45,19 +46,24 @@ export function StudioLayout() {
             try {
                 const apiUrl = 'https://socialmediaapp-ugrr.onrender.com/profile';
 
-                // const config = {
-                //     headers: {
-                //         accept: 'application/json',
-                //         'Content-Type': 'application/json',
-                //         credentials: 'include',
-                //     },
-                // };
+                const config = {
+                    headers: {
+                        accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authRes}`,
+                    },
+                };
+                console.log('config', config);
+                console.log('authEmail', authEmail);
+                console.log('authRes', authRes);
 
                 const dataForPost: FormValues = {
                     email: authEmail,
                 };
 
-                const res = await axios.post(apiUrl, dataForPost);
+                console.log(dataForPost);
+
+                const res = await axios.post(apiUrl, dataForPost, config);
 
                 setIsLoading(false);
                 console.log(userProfileData);
@@ -82,8 +88,8 @@ export function StudioLayout() {
                     newUserData.numberOfPosts = 0;
                 }
 
-                if (newUserData.profileDescription) {
-                    newUserData.profileDescription = '';
+                if (newUserData.profileDescription === null) {
+                    newUserData.profileDescription = 'no username';
                 }
 
                 setUserProfileData(newUserData);
@@ -101,6 +107,10 @@ export function StudioLayout() {
                         setIsLoading(true);
                         console.log('user indeed not authenticated');
                         console.log('error: ', errorMessage);
+                        console.log('error: ', error.response);
+                    } else if (error.response.data.msg === 'Missing Authorization Header') {
+                        console.log('error:', error.response.data.msg);
+                        console.log('Missing Authorization Header INDEED');
                     } else if (errorMessage === 'User not found') {
                         console.log('user indeed not found');
                         console.log('error: ', errorMessage);
@@ -139,6 +149,12 @@ export function StudioLayout() {
         // console.log('data:', data);
         if (data !== null) setAuthEmail(JSON.parse(data));
     }, [setAuthEmail]);
+
+    useEffect(() => {
+        const data = window.localStorage.getItem('AUTH_RES_DATA');
+        console.log('data:', data);
+        if (data !== null) setAuthRes(JSON.parse(data));
+    }, [setAuthRes]);
 
     return (
         <div className="flex justify-center text-secondary-normal">

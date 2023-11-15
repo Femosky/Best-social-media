@@ -17,8 +17,14 @@ type FormValues = {
     password: string;
 };
 
+// type AuthResDataProps = {
+//     message: string;
+//     token: string;
+// };
+
 export function SignIn({ className, ...props }: formProps) {
     const { authEmail, setAuthEmail } = useAuth();
+    const { authRes, setAuthRes } = useAuth();
 
     const [isLoading, setIsLoading] = useState(false);
     const [isLoginSuccessful, setIsLoginSuccessful] = useState(false);
@@ -58,6 +64,14 @@ export function SignIn({ className, ...props }: formProps) {
             const { ...dataForPost } = data;
 
             const res = await axios.post(apiUrl, dataForPost);
+
+            // const authResData: AuthResDataProps = {
+            //     message: res.data.message,
+            //     token: res.data.token,
+            // };
+
+            setAuthRes(res.data.token);
+            console.log(res.data.token);
 
             setAuthEmail(dataForPost.email);
             setIsLoginSuccessful(true);
@@ -105,6 +119,10 @@ export function SignIn({ className, ...props }: formProps) {
     useEffect(() => {
         window.localStorage.setItem('EMAIL_POST_DATA', JSON.stringify(authEmail));
     }, [authEmail]);
+
+    useEffect(() => {
+        window.localStorage.setItem('AUTH_RES_DATA', JSON.stringify(authRes));
+    }, [authRes]);
 
     return (
         <form {...props} className={twMerge('flex flex-col gap-6 w-full', className)} onSubmit={handleSubmit(onSubmit)}>
