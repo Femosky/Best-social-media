@@ -146,7 +146,7 @@ export function SignIn({ className, ...props }: formProps) {
                     name="password"
                     control={control}
                     defaultValue=""
-                    render={({ field }) => <Input id="password" placeholder="Password" {...field} />}
+                    render={({ field }) => <Input id="password" type="password" placeholder="Password" {...field} />}
                 />
                 <p className="text-red-400">{errors.password?.message}</p>
             </div>

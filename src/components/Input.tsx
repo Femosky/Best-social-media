@@ -4,11 +4,11 @@ import { twMerge } from 'tailwind-merge';
 
 type InputProps = ComponentProps<'input'>;
 
-export function Input({ className, id, placeholder, ...props }: InputProps) {
+export function Input({ type, className, id, placeholder, ...props }: InputProps) {
     return (
         <input
             {...props}
-            type="text"
+            type={type}
             id={id}
             placeholder={placeholder}
             className={twMerge(

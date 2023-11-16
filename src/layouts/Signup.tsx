@@ -201,7 +201,7 @@ export function Signup({ className, ...props }: formProps) {
                     name="password"
                     control={control}
                     defaultValue=""
-                    render={({ field }) => <Input id="password" placeholder="Password" {...field} />}
+                    render={({ field }) => <Input id="password" type="password" placeholder="Password" {...field} />}
                 />
                 <p className="text-red-400">{errors.password?.message}</p>
             </div>
@@ -214,7 +214,9 @@ export function Signup({ className, ...props }: formProps) {
                     name="confirmPassword"
                     control={control}
                     defaultValue=""
-                    render={({ field }) => <Input id="confirm-password" placeholder="Confirm password" {...field} />}
+                    render={({ field }) => (
+                        <Input id="confirm-password" type="password" placeholder="Confirm password" {...field} />
+                    )}
                 />
                 <p className="text-red-400">{errors.confirmPassword?.message}</p>
             </div>
