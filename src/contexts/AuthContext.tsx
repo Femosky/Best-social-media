@@ -25,6 +25,8 @@ const AuthContext = createContext<
           setIsNetworkFailure: React.Dispatch<React.SetStateAction<boolean>>;
           user: boolean | null;
           setUser: React.Dispatch<React.SetStateAction<boolean | null>>;
+          isRefreshing: boolean;
+          setIsRefreshing: React.Dispatch<React.SetStateAction<boolean>>;
       }
     | undefined
 >(undefined);
@@ -49,6 +51,7 @@ export function AuthProvider({ children }: ChildrenProps) {
     const [isNetworkFailure, setIsNetworkFailure] = useState(false);
 
     const [user, setUser] = useState<boolean | null>(null);
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
     return (
         <AuthContext.Provider
@@ -75,6 +78,8 @@ export function AuthProvider({ children }: ChildrenProps) {
                 setIsNetworkFailure,
                 user,
                 setUser,
+                isRefreshing,
+                setIsRefreshing,
             }}
         >
             {children}

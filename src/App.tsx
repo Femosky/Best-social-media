@@ -7,7 +7,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Home } from './pages/Home';
 import { Error404 } from './pages/Error404';
 import { NavbarProvider } from './contexts/NavbarContext';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Footer } from './layouts/Footer';
 import { Jungle } from './pages/Jungle';
@@ -38,7 +38,7 @@ function App() {
 
 function AppContent() {
     const { setUser } = useAuth();
-    const [isRefreshing, setIsRefreshing] = useState(false);
+    const { isRefreshing, setIsRefreshing } = useAuth();
 
     useEffect(() => {
         function handleBeforeUnload() {
@@ -73,7 +73,7 @@ function AppContent() {
         return () => {
             setUser(null);
         };
-    }, [setUser]);
+    }, [setIsRefreshing, setUser]);
 
     return (
         <>
