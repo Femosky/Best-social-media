@@ -6,7 +6,7 @@ export function Jungle() {
 
     useEffect(() => {
         if (!isLoggedIn) {
-            window.location.href = '/';
+            window.location.href = '/login';
         }
     }, [isLoggedIn]);
 
