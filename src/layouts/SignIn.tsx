@@ -17,11 +17,6 @@ type FormValues = {
     password: string;
 };
 
-// type AuthResDataProps = {
-//     message: string;
-//     token: string;
-// };
-
 export function SignIn({ className, ...props }: formProps) {
     const { authEmail, setAuthEmail } = useAuth();
     const { authRes, setAuthRes } = useAuth();

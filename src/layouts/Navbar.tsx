@@ -15,6 +15,8 @@ export function Navbar() {
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const { authRes } = useAuth();
+
     const { isSmall, setIsSmall } = useNavbar();
     const {
         setIsLoginToggle,
@@ -60,14 +62,14 @@ export function Navbar() {
         try {
             const apirUrl = 'https://socialmediaapp-ugrr.onrender.com/logout';
 
-            // const config = {
-            //     headers: {
-            //         accept: 'application/json',
-            //         'Content-Type': 'application/json',
-            //     },
-            // };
+            const config = {
+                headers: {
+                    accept: '*/*',
+                    Authorization: `Bearer ${authRes}`,
+                },
+            };
 
-            const res = await axios.get(apirUrl);
+            const res = await axios.get(apirUrl, config);
 
             console.log('Success: ', res.data);
 
@@ -77,12 +79,6 @@ export function Navbar() {
 
                     setIsLoggedIn(false);
                     localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
-
-                    if (isInHomePath) {
-                        // navigate('/');
-                        window.location.href = '/';
-                    }
-                    console.log('still ran');
                 }, 3000);
 
                 return () => clearTimeout(timer);
