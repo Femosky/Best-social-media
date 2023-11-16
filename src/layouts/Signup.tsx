@@ -30,6 +30,8 @@ export function Signup({ className, ...props }: formProps) {
     const { setIsCredentials } = useAuth();
     const { setIsNetworkFailure } = useAuth();
 
+    const { isLoginToggle, isSignupToggle } = useAuth();
+
     const [isSignupSuccessful, setIsSignupSuccessful] = useState(false);
     const [isAccountExisting, setIsAccountExisting] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -59,6 +61,7 @@ export function Signup({ className, ...props }: formProps) {
         control,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm<FormValues>({
         resolver: yupResolver(schema),
     });
@@ -86,6 +89,8 @@ export function Signup({ className, ...props }: formProps) {
 
                 setIsCredentials(false);
                 setIsNetworkFailure(false);
+
+                reset();
 
                 navigate('/login');
             }, 3000);
@@ -115,6 +120,15 @@ export function Signup({ className, ...props }: formProps) {
             }
         }
     }
+
+    useEffect(() => {
+        // to clear input fields & errors when switching btw login and signup
+        if (isLoginToggle && !isSignupToggle) {
+            reset();
+            setIsCredentials(false);
+            setIsNetworkFailure(false);
+        }
+    }, [isLoginToggle, isSignupToggle, reset, setIsCredentials, setIsNetworkFailure]);
 
     useEffect(() => {
         window.localStorage.setItem('EMAIL_POST_DATA', JSON.stringify(authEmail));

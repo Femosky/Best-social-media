@@ -23,13 +23,15 @@ const AuthContext = createContext<
           setIsCredentials: React.Dispatch<React.SetStateAction<boolean>>;
           isNetworkFailure: boolean;
           setIsNetworkFailure: React.Dispatch<React.SetStateAction<boolean>>;
+          user: boolean | null;
+          setUser: React.Dispatch<React.SetStateAction<boolean | null>>;
       }
     | undefined
 >(undefined);
 
 export function AuthProvider({ children }: ChildrenProps) {
-    const [isLoginToggle, setIsLoginToggle] = useState(false);
-    const [isSignupToggle, setIsSignupToggle] = useState(true);
+    const [isLoginToggle, setIsLoginToggle] = useState(true);
+    const [isSignupToggle, setIsSignupToggle] = useState(false);
 
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
         const storedValue = localStorage.getItem('IS_LOGGED_IN');
@@ -45,6 +47,8 @@ export function AuthProvider({ children }: ChildrenProps) {
 
     const [isCredentials, setIsCredentials] = useState(false);
     const [isNetworkFailure, setIsNetworkFailure] = useState(false);
+
+    const [user, setUser] = useState<boolean | null>(null);
 
     return (
         <AuthContext.Provider
@@ -69,6 +73,8 @@ export function AuthProvider({ children }: ChildrenProps) {
                 setIsCredentials,
                 isNetworkFailure,
                 setIsNetworkFailure,
+                user,
+                setUser,
             }}
         >
             {children}

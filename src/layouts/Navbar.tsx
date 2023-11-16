@@ -14,8 +14,9 @@ export function Navbar() {
     const isInHomePath = currentPath === '/home' || currentPath === '/home/*';
 
     const [isLoading, setIsLoading] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
 
-    const { authRes } = useAuth();
+    const { authRes, setAuthRes } = useAuth();
 
     const { isSmall, setIsSmall } = useNavbar();
     const {
@@ -30,6 +31,12 @@ export function Navbar() {
         isInStudio,
         setIsInStudio,
     } = useAuth();
+
+    // debug
+
+    function visibleToggle() {
+        setIsVisible((prev) => !prev);
+    }
 
     // Sign up and login switch toggles
 
@@ -52,9 +59,9 @@ export function Navbar() {
         setIsInStudio(false);
     }
 
-    function reloadPage() {
-        window.location.reload();
-    }
+    // function reloadPage() {
+    //     window.location.reload();
+    // }
 
     async function logout() {
         // setIsLoading(false);
@@ -96,10 +103,21 @@ export function Navbar() {
                     console.log('error: ', error.response);
                     console.log('user indeed not authenticated');
                 } else {
-                    console.log('error: ', error.response);
+                    console.log('error: SECOND', error.response);
+                    setIsLoading(true);
+
+                    const timerId = setTimeout(() => {
+                        setIsLoggedIn(false);
+                        localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
+                        navigate('/login');
+                    }, 3000);
+
+                    return () => {
+                        clearTimeout(timerId);
+                    };
                 }
             } else {
-                console.log('error: ', error.response);
+                console.log('error: FINAL', error.response);
             }
 
             // for beta testing - SET TO TRUE WHEN DONE
@@ -113,8 +131,14 @@ export function Navbar() {
         if (storedValue && JSON.parse(storedValue) !== isLoggedIn) {
             setIsLoggedIn(JSON.parse(storedValue));
         }
-        console.log(storedValue);
+        // console.log(storedValue);
     }, [isLoggedIn, setIsLoggedIn]);
+
+    useEffect(() => {
+        const data = window.localStorage.getItem('AUTH_RES_DATA');
+        // console.log('data:', data);
+        if (data !== null) setAuthRes(JSON.parse(data));
+    }, [setAuthRes]);
 
     function logoutToggle() {
         logout();
@@ -185,63 +209,72 @@ export function Navbar() {
                 <div className="">
                     {/* <Link to="/" reloadDocument>
                     </Link> */}
-
                     <h1
                         onClick={() => {
-                            isLoggedIn
-                                ? (window.location.href = currentPath) || reloadPage()
-                                : (window.location.href = '/');
+                            isLoggedIn ? navigate('/home') : (window.location.href = '/');
                         }}
-                        className="text-[20px] font-extrabold leading-[30px] tracking-[3px] text-gray-900"
+                        className="hover:cursor-pointer text-[20px] font-extrabold leading-[30px] tracking-[3px] text-gray-900"
                     >
                         BEST
                     </h1>
                 </div>
 
-                {/* Managing the logged in State */}
+                {/* Managing the logged in State | DEBUG MODE */}
 
-                <div className="hidden bg-red-400 rounded-lg px-4  | lg:flex lg:flex-col lg:items-center">
-                    <p className="text-white text-center font-bold">USE OTHER LOGIN BUTTONS. FOR DEVELOPERS</p>{' '}
-                    <div className="flex gap-4">
-                        {!isLoggedIn && (
-                            <Button onClick={loginToggle} variant="dark">
-                                Login
+                {!isVisible && (
+                    <Button onClick={visibleToggle} variant="light" className={`hidden lg:flex`}>
+                        {isVisible ? 'Hide' : 'Show'}
+                    </Button>
+                )}
+
+                {isVisible && (
+                    <div className="hidden bg-red-400 rounded-lg px-4  | lg:flex lg:flex-col lg:items-center">
+                        <p className="text-white text-center font-bold">USE OTHER LOGIN BUTTONS. FOR DEVELOPERS</p>{' '}
+                        <div className="flex gap-4">
+                            <Button onClick={visibleToggle} variant="light">
+                                {isVisible ? 'Hide' : 'Show'}
                             </Button>
-                        )}
 
-                        {isLoggedIn && (
+                            {!isLoggedIn && (
+                                <Button onClick={loginToggle} variant="dark">
+                                    Login
+                                </Button>
+                            )}
+
+                            {isLoggedIn && (
+                                <Button
+                                    onClick={() => {
+                                        // setIsLoading(true);
+                                        // logoutToggle();
+                                        setIsLoggedIn(false);
+                                        localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
+                                    }}
+                                    className="flex justify-center items-center"
+                                    variant="hot"
+                                >
+                                    {isLoading ? (
+                                        <>
+                                            <LoadingSpinner /> Logging out
+                                        </>
+                                    ) : (
+                                        'Logout'
+                                    )}
+                                </Button>
+                            )}
+
                             <Button
                                 onClick={() => {
-                                    // setIsLoading(true);
-                                    // logoutToggle();
-                                    setIsLoggedIn(false);
-                                    localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
+                                    homeToggle();
+                                    if (!isInHomePath) navigate('/home');
+                                    if (isSmall) close();
                                 }}
-                                className="flex justify-center items-center"
-                                variant="hot"
+                                variant="dark"
                             >
-                                {isLoading ? (
-                                    <>
-                                        <LoadingSpinner /> Logging out
-                                    </>
-                                ) : (
-                                    'Logout'
-                                )}
+                                Home
                             </Button>
-                        )}
-
-                        <Button
-                            onClick={() => {
-                                homeToggle();
-                                if (!isInHomePath) navigate('/home');
-                                if (isSmall) close();
-                            }}
-                            variant="dark"
-                        >
-                            Home
-                        </Button>
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {isLoggedIn && !isSmall && (
                     <>
@@ -362,52 +395,64 @@ export function Navbar() {
                                 Home
                             </Button>
                         </div> */}
-                        <div className="flex flex-col items-center bg-red-400 rounded-lg px-4 w-fit self-center | lg:hidden">
-                            <p className="text-white text-center font-bold">
-                                USE OTHER LOGIN BUTTONS
-                                <br />
-                                FOR DEVELOPERS
-                            </p>
-                            <div className="flex gap-4">
-                                {!isLoggedIn && (
-                                    <Button onClick={loginToggle} variant="dark">
-                                        Login
-                                    </Button>
-                                )}
+                        {!isVisible && (
+                            <Button onClick={visibleToggle} className="w-fit flex self-center" variant="light">
+                                Show
+                            </Button>
+                        )}
 
-                                {isLoggedIn && (
+                        {isVisible && (
+                            <div className="flex flex-col items-center bg-red-400 rounded-lg px-4 w-fit self-center | lg:hidden">
+                                <p className="text-white text-center font-bold">
+                                    USE OTHER LOGIN BUTTONS
+                                    <br />
+                                    FOR DEVELOPERS
+                                </p>
+                                <div className="flex gap-4">
+                                    <Button onClick={visibleToggle} className="w-fit flex self-center" variant="light">
+                                        Hide
+                                    </Button>
+
+                                    {!isLoggedIn && (
+                                        <Button onClick={loginToggle} variant="dark">
+                                            Login
+                                        </Button>
+                                    )}
+
+                                    {isLoggedIn && (
+                                        <Button
+                                            onClick={() => {
+                                                // setIsLoading(true);
+                                                // logoutToggle();
+                                                setIsLoggedIn(false);
+                                                localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
+                                            }}
+                                            className="flex justify-center items-center"
+                                            variant="hot"
+                                        >
+                                            {isLoading ? (
+                                                <>
+                                                    <LoadingSpinner /> Logging out
+                                                </>
+                                            ) : (
+                                                'Logout'
+                                            )}
+                                        </Button>
+                                    )}
+
                                     <Button
                                         onClick={() => {
-                                            // setIsLoading(true);
-                                            // logoutToggle();
-                                            setIsLoggedIn(false);
-                                            localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
+                                            homeToggle();
+                                            if (!isInHomePath) navigate('/home');
+                                            if (isSmall) close();
                                         }}
-                                        className="flex justify-center items-center"
-                                        variant="hot"
+                                        variant="dark"
                                     >
-                                        {isLoading ? (
-                                            <>
-                                                <LoadingSpinner /> Logging out
-                                            </>
-                                        ) : (
-                                            'Logout'
-                                        )}
+                                        Home
                                     </Button>
-                                )}
-
-                                <Button
-                                    onClick={() => {
-                                        homeToggle();
-                                        if (!isInHomePath) navigate('/home');
-                                        if (isSmall) close();
-                                    }}
-                                    variant="dark"
-                                >
-                                    Home
-                                </Button>
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                         {!isLoggedIn && (
                             <div className="flex flex-col items-center gap-10">

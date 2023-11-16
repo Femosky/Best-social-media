@@ -8,6 +8,13 @@ import { useAuth } from '../contexts/AuthContext';
 export function Homepage() {
     const { isLoggedIn } = useAuth();
 
+    const { setIsLoginToggle, setIsSignupToggle } = useAuth();
+
+    function signupToggle() {
+        setIsLoginToggle(false);
+        setIsSignupToggle(true);
+    }
+
     useEffect(() => {
         if (isLoggedIn) {
             window.location.href = '/home';
@@ -27,7 +34,7 @@ export function Homepage() {
                     Showcase your art instantly with your Besties!
                 </h4>
                 <Link to="/login">
-                    <Button variant="dark" className="lg:w-[465px] font-bold">
+                    <Button onClick={signupToggle} variant="dark" className="lg:w-[465px] font-bold">
                         Sign up
                     </Button>
                 </Link>

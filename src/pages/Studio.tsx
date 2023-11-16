@@ -47,7 +47,7 @@ export function Studio() {
     });
 
     const { authEmail, setAuthEmail } = useAuth();
-    const { authRes, setAuthRes } = useAuth();
+    const { authRes } = useAuth();
 
     // const { data: FormValues } = useQuery(['username'], async () => {
 
@@ -81,6 +81,7 @@ export function Studio() {
 
                 setIsLoading(false);
                 console.log(userProfileData);
+                console.log('OOPSY', res.data);
 
                 const newUserData: UserDataProps = {
                     numberOfAdores: res.data.number_of_adores,
@@ -130,10 +131,10 @@ export function Studio() {
                         console.log('user indeed not found');
                         console.log('error: ', errorMessage);
                     } else {
-                        console.log('error: ', error.response);
+                        console.log('error: SECOND', error.response);
                     }
                 } else {
-                    console.log('error: ', error.response);
+                    console.log('error FINAL: ', error.response);
                 }
 
                 // window.location.href = '*';
@@ -167,11 +168,11 @@ export function Studio() {
         if (data !== null) setAuthEmail(JSON.parse(data));
     }, [setAuthEmail]);
 
-    useEffect(() => {
-        const data = window.localStorage.getItem('AUTH_RES_DATA');
-        console.log('data:', data);
-        if (data !== null) setAuthRes(JSON.parse(data));
-    }, [setAuthRes]);
+    // useEffect(() => {
+    //     const data = window.localStorage.getItem('AUTH_RES_DATA');
+    //     console.log('data:', data);
+    //     if (data !== null) setAuthRes(JSON.parse(data));
+    // }, [setAuthRes]);
 
     return (
         <div className="flex justify-center text-secondary-normal">

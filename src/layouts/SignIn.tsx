@@ -18,6 +18,8 @@ type FormValues = {
 };
 
 export function SignIn({ className, ...props }: formProps) {
+    const navigate = useNavigate();
+
     const { authEmail, setAuthEmail } = useAuth();
     const { authRes, setAuthRes } = useAuth();
 
@@ -28,8 +30,7 @@ export function SignIn({ className, ...props }: formProps) {
     const { isNetworkFailure, setIsNetworkFailure } = useAuth();
 
     const { setIsInHome, setIsInJungle, setIsInStudio, setIsLoggedIn } = useAuth();
-
-    const navigate = useNavigate();
+    const { isLoginToggle, isSignupToggle } = useAuth();
 
     const schema = yup.object().shape({
         email: yup.string().email('Enter a real email address').required('Enter your email address'),
@@ -40,6 +41,7 @@ export function SignIn({ className, ...props }: formProps) {
         handleSubmit,
         control,
         formState: { errors },
+        reset,
     } = useForm<FormValues>({ resolver: yupResolver(schema) });
 
     async function onSubmit(data: FormValues) {
@@ -48,23 +50,10 @@ export function SignIn({ className, ...props }: formProps) {
         try {
             const apiUrl = 'https://socialmediaapp-ugrr.onrender.com/login';
 
-            // const config = {
-            //     headers: {
-            //         accept: 'application/json',
-            //         'Content-Type': 'application/json',
-            //         credentials: 'include',
-            //     },
-            // };
-
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { ...dataForPost } = data;
 
             const res = await axios.post(apiUrl, dataForPost);
-
-            // const authResData: AuthResDataProps = {
-            //     message: res.data.message,
-            //     token: res.data.token,
-            // };
 
             setAuthRes(res.data.token);
             console.log(res.data.token);
@@ -91,6 +80,7 @@ export function SignIn({ className, ...props }: formProps) {
             setIsLoginSuccessful(false);
             setIsCredentials(false);
             setIsNetworkFailure(false);
+
             localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
 
             if (error.response && error.response.data) {
@@ -111,6 +101,14 @@ export function SignIn({ className, ...props }: formProps) {
             }
         }
     }
+
+    useEffect(() => {
+        if (!isLoginToggle && isSignupToggle) {
+            reset();
+            setIsCredentials(false);
+            setIsNetworkFailure(false);
+        }
+    }, [isLoginToggle, isSignupToggle, reset, setIsCredentials, setIsNetworkFailure]);
 
     useEffect(() => {
         window.localStorage.setItem('EMAIL_POST_DATA', JSON.stringify(authEmail));
