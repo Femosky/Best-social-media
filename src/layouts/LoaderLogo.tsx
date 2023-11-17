@@ -1,8 +1,7 @@
 import { ComponentProps, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { useAuth } from '../contexts/AuthContext';
-import { Heart } from 'lucide-react';
-// import { BestGradient } from '../components/BestGradient';
+import { BestGradient } from '../components/BestGradient';
 
 type LoaderLogoProps = ComponentProps<'div'>;
 
@@ -24,10 +23,10 @@ export function LoaderLogo({ className, ...props }: LoaderLogoProps) {
             localStorage.setItem('isRefreshing', 'true');
         }
 
-        window.addEventListener('beforeunload', handleBeforeUnload);
+        window.addEventListener('visibilitychange', handleBeforeUnload);
 
         return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
+            window.removeEventListener('visibilitychange', handleBeforeUnload);
             localStorage.removeItem('isRefreshing');
         };
     }, []);
@@ -53,18 +52,17 @@ export function LoaderLogo({ className, ...props }: LoaderLogoProps) {
                 <div
                     {...props}
                     className={twMerge(
-                        'flex fixed z-[1000] bg-red-400 justify-center items-center h-full w-full',
+                        'flex fixed z-[1000] bg-white justify-center items-center h-full w-full',
                         className
                     )}
                 >
-                    <Heart />
-                    <h1 className="text-[20px] md:text-[30px] lg:text-[40px] font-extrabold tracking-[3px] text-gray-900">
+                    {/* <h1 className="text-[20px] md:text-[30px] lg:text-[40px] font-extrabold tracking-[3px] text-gray-900">
                         BEST
-                    </h1>
-                    {/* <BestGradient
+                    </h1> */}
+                    <BestGradient
                         content="BEST"
                         className="text-[20px] md:text-[30px] lg:text-[40px] font-plusJakarta font-extrabold tracking-[3px]"
-                    /> */}
+                    />
                 </div>
             )}
         </>
