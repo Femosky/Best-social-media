@@ -133,7 +133,13 @@ export function SignIn({ className, ...props }: formProps) {
                     name="email"
                     control={control}
                     defaultValue=""
-                    render={({ field }) => <Input id="email" placeholder="Email address" {...field} />}
+                    render={({ field }) => (
+                        <Input
+                            id={`email-${Math.random().toString(36).substring(7)}`}
+                            placeholder="Email address"
+                            {...field}
+                        />
+                    )}
                 />
                 <p className="text-red-400">{errors.email?.message}</p>
             </div>
@@ -146,7 +152,14 @@ export function SignIn({ className, ...props }: formProps) {
                     name="password"
                     control={control}
                     defaultValue=""
-                    render={({ field }) => <Input id="password" type="password" placeholder="Password" {...field} />}
+                    render={({ field }) => (
+                        <Input
+                            id={`password-${Math.random().toString(36).substring(7)}`}
+                            type="password"
+                            placeholder="Password"
+                            {...field}
+                        />
+                    )}
                 />
                 <p className="text-red-400">{errors.password?.message}</p>
             </div>
