@@ -81,14 +81,10 @@ export function Navbar() {
             console.log('Success: ', res.data);
 
             if (res.data.message === 'You have been logged out sucessfully') {
-                const timer = setTimeout(() => {
-                    setIsLoading(false);
+                setIsLoading(false);
 
-                    setIsLoggedIn(false);
-                    localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
-                }, 3000);
-
-                return () => clearTimeout(timer);
+                setIsLoggedIn(false);
+                localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
             }
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
