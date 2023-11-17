@@ -10,133 +10,30 @@ import { LoadingSpinner } from '../components/LoadingSpinner';
 export function Navbar() {
     const navigate = useNavigate();
     const location = useLocation();
+
+    // for paths
     const currentPath = location.pathname;
     const isInHomePath = currentPath === '/home' || currentPath === '/home/*';
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
+    // for the logged in state
+    const { isLoggedIn, setIsLoggedIn } = useAuth();
 
+    // for Loading
+    const [isLoading, setIsLoading] = useState(false);
+
+    // to set our token for authentication in profile
     const { authRes, setAuthRes } = useAuth();
 
+    // to know when the navbar menu button has been opened
     const { isSmall, setIsSmall } = useNavbar();
-    const {
-        setIsLoginToggle,
-        setIsSignupToggle,
-        isLoggedIn,
-        setIsLoggedIn,
-        isInHome,
-        setIsInHome,
-        isInJungle,
-        setIsInJungle,
-        isInStudio,
-        setIsInStudio,
-    } = useAuth();
 
-    // debug
+    // To toggle on the Login and Sign up switches
+    const { setIsLoginToggle, setIsSignupToggle } = useAuth();
 
-    function visibleToggle() {
-        setIsVisible((prev) => !prev);
-    }
-
-    // Sign up and login switch toggles
-
-    function loginSwitchToggle() {
-        setIsLoginToggle(true);
-        setIsSignupToggle(false);
-    }
-
-    function signupSwitchToggle() {
-        setIsSignupToggle(true);
-        setIsLoginToggle(false);
-    }
-
-    function loginToggle() {
-        setIsLoggedIn(true);
-        localStorage.setItem('IS_LOGGED_IN', JSON.stringify(true));
-
-        setIsInHome(true);
-        setIsInJungle(false);
-        setIsInStudio(false);
-    }
-
-    // function reloadPage() {
-    //     window.location.reload();
-    // }
-
-    async function logout() {
-        // setIsLoading(false);
-
-        try {
-            const apirUrl = 'https://socialmediaapp-ugrr.onrender.com/logout';
-
-            const config = {
-                headers: {
-                    accept: '*/*',
-                    Authorization: `Bearer ${authRes}`,
-                },
-            };
-
-            const res = await axios.get(apirUrl, config);
-
-            console.log('Success: ', res.data);
-
-            if (res.data.message === 'You have been logged out sucessfully') {
-                setIsLoading(false);
-
-                setIsLoggedIn(false);
-                localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
-                setIsSmall(false);
-            }
-
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            setIsLoading(false);
-
-            if (error.response && error.response.data) {
-                const errorMessage = error.response.data.message;
-
-                if (errorMessage === 'User not authenticated') {
-                    console.log('error: ', errorMessage);
-                    console.log('error: ', error.response);
-                    console.log('user indeed not authenticated');
-                } else {
-                    console.log('error: SECOND', error.response);
-                    setIsLoading(true);
-
-                    const timerId = setTimeout(() => {
-                        setIsLoggedIn(false);
-                        localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
-                        navigate('/login');
-                    }, 3000);
-
-                    return () => {
-                        clearTimeout(timerId);
-                    };
-                }
-            } else {
-                console.log('error: FINAL', error.response);
-            }
-        }
-    }
-
-    useEffect(() => {
-        const storedValue = localStorage.getItem('IS_LOGGED_OUT');
-
-        if (storedValue && JSON.parse(storedValue) !== isLoggedIn) {
-            setIsLoggedIn(JSON.parse(storedValue));
-        }
-        // console.log(storedValue);
-    }, [isLoggedIn, setIsLoggedIn]);
-
-    useEffect(() => {
-        const data = window.localStorage.getItem('AUTH_RES_DATA');
-        // console.log('data:', data);
-        if (data !== null) setAuthRes(JSON.parse(data));
-    }, [setAuthRes]);
-
-    function logoutToggle() {
-        logout();
-    }
+    // To toggle on the profile switches
+    const { isInHome, setIsInHome } = useAuth();
+    const { isInJungle, setIsInJungle } = useAuth();
+    const { isInStudio, setIsInStudio } = useAuth();
 
     function homeToggle() {
         setIsInHome(true);
@@ -193,6 +90,102 @@ export function Navbar() {
         };
     }, [isSmall]);
 
+    // Sign up and login switch toggles
+
+    function loginSwitchToggle() {
+        setIsLoginToggle(true);
+        setIsSignupToggle(false);
+    }
+
+    function signupSwitchToggle() {
+        setIsSignupToggle(true);
+        setIsLoginToggle(false);
+    }
+
+    // for handling logout
+    async function logout() {
+        try {
+            const apirUrl = 'https://socialmediaapp-ugrr.onrender.com/logout';
+
+            const config = {
+                headers: {
+                    accept: '*/*',
+                    Authorization: `Bearer ${authRes}`,
+                },
+            };
+
+            const res = await axios.get(apirUrl, config);
+
+            // console.log('Success: ', res.data);
+
+            if (res.data.message === 'You have been logged out sucessfully') {
+                setIsLoading(false);
+
+                setIsLoggedIn(false);
+                localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
+                setIsSmall(false);
+            }
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            setIsLoading(false);
+
+            if (error.response && error.response.data) {
+                const errorMessage = error.response.data.message;
+
+                if (errorMessage === 'User not authenticated') {
+                    console.log('error: ', errorMessage);
+                    console.log('error: ', error.response);
+                    console.log('user indeed not authenticated');
+                } else {
+                    console.log('error: SECOND', error.response);
+                    setIsLoading(true);
+
+                    setIsLoggedIn(false);
+                    localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
+                }
+            } else {
+                console.log('error: FINAL', error.response);
+            }
+        }
+    }
+
+    function logoutToggle() {
+        logout();
+    }
+
+    // get from storage
+    useEffect(() => {
+        // to get logged out state from storage
+        const storedValue = localStorage.getItem('IS_LOGGED_OUT');
+
+        if (storedValue && JSON.parse(storedValue) !== isLoggedIn) {
+            setIsLoggedIn(JSON.parse(storedValue));
+        }
+    }, [isLoggedIn, setIsLoggedIn]);
+
+    useEffect(() => {
+        const data = window.localStorage.getItem('AUTH_RES_DATA');
+
+        if (data !== null) setAuthRes(JSON.parse(data));
+    }, [setAuthRes]);
+
+    // DEVELOPER DEBUG MODE
+    const [isVisible, setIsVisible] = useState(false);
+
+    function visibleToggle() {
+        setIsVisible((prev) => !prev);
+    }
+
+    function loginToggle() {
+        setIsLoggedIn(true);
+        localStorage.setItem('IS_LOGGED_IN', JSON.stringify(true));
+
+        setIsInHome(true);
+        setIsInJungle(false);
+        setIsInStudio(false);
+    }
+
     return (
         <>
             <div
@@ -201,8 +194,6 @@ export function Navbar() {
                 }`}
             >
                 <div className="">
-                    {/* <Link to="/" reloadDocument>
-                    </Link> */}
                     <h1
                         onClick={() => {
                             isLoggedIn ? navigate('/home') : (window.location.href = '/');
@@ -214,6 +205,8 @@ export function Navbar() {
                 </div>
 
                 {/* Managing the logged in State | DEBUG MODE */}
+
+                {/* DEVELOPER BUTTONS */}
 
                 {!isVisible && (
                     <Button onClick={visibleToggle} variant="light" className={`hidden lg:flex`}>
@@ -350,45 +343,7 @@ export function Navbar() {
                         </Button>
                     </section>
                     <section className="flex flex-col gap-20">
-                        {/* <div className="flex gap-4 justify-center | lg:hidden">
-                            {!isLoggedIn && (
-                                <Button onClick={loginToggle} variant="dark">
-                                    Login
-                                </Button>
-                            )}
-
-                            {isLoggedIn && (
-                                <Button
-                                    onClick={() => {
-                                        // setIsLoading(true);
-                                        // logoutToggle();
-                                        setIsLoggedIn(false);
-                                        localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
-                                    }}
-                                    className="flex justify-center items-center"
-                                    variant="hot"
-                                >
-                                    {isLoading ? (
-                                        <>
-                                            <LoadingSpinner /> Logging out
-                                        </>
-                                    ) : (
-                                        'Logout'
-                                    )}
-                                </Button>
-                            )}
-
-                            <Button
-                                onClick={() => {
-                                    homeToggle();
-                                    if (!isInHomePath) navigate('/home');
-                                    if (isSmall) close();
-                                }}
-                                variant="dark"
-                            >
-                                Home
-                            </Button>
-                        </div> */}
+                        {/* DEVELOPER BUTTONS */}
                         {!isVisible && (
                             <Button onClick={visibleToggle} className="w-fit flex self-center" variant="light">
                                 Show

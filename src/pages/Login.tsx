@@ -7,7 +7,12 @@ import { useAuth } from '../contexts/AuthContext';
 import { useEffect } from 'react';
 
 export function Login() {
-    const { isLoggedIn, isLoginToggle, setIsLoginToggle, isSignupToggle, setIsSignupToggle } = useAuth();
+    // To check the logged in state
+    const { isLoggedIn } = useAuth();
+
+    // To toggle on the Login and Sign up switches
+    const { isLoginToggle, setIsLoginToggle } = useAuth();
+    const { isSignupToggle, setIsSignupToggle } = useAuth();
 
     function loginToggle() {
         setIsLoginToggle(true);
@@ -19,6 +24,7 @@ export function Login() {
         setIsLoginToggle(false);
     }
 
+    // to redirect us to our profile (private pages) when logged in
     useEffect(() => {
         if (isLoggedIn) {
             window.location.href = '/home';

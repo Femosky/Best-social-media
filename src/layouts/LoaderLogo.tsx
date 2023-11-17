@@ -9,6 +9,7 @@ export function LoaderLogo({ className, ...props }: LoaderLogoProps) {
     const { isRefreshing, setIsRefreshing } = useAuth();
 
     useEffect(() => {
+        // to stop scrolling when the loader logo is shown
         document.body.classList.toggle('overflow-hidden', isRefreshing);
 
         return () => {
@@ -17,6 +18,7 @@ export function LoaderLogo({ className, ...props }: LoaderLogoProps) {
     }, [isRefreshing]);
 
     useEffect(() => {
+        // to check when the page is refreshed
         function handleBeforeUnload() {
             localStorage.setItem('isRefreshing', 'true');
         }
@@ -30,6 +32,7 @@ export function LoaderLogo({ className, ...props }: LoaderLogoProps) {
     }, []);
 
     useEffect(() => {
+        // to add a timer to the loader logo when the page is refreshed
         const storedIsRefreshing = localStorage.getItem('isRefreshing');
         const isRefreshed = storedIsRefreshing === 'true';
 

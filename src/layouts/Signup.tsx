@@ -24,18 +24,23 @@ type FormValues = {
 export function Signup({ className, ...props }: formProps) {
     const navigate = useNavigate();
 
-    const { authEmail, setAuthEmail, setIsLoginToggle, setIsSignupToggle } = useAuth();
+    // To store the user's email for authentication in profile
+    const { authEmail, setAuthEmail } = useAuth();
 
-    // from Sign In
-    const { setIsCredentials } = useAuth();
-    const { setIsNetworkFailure } = useAuth();
+    // To toggle on the Login and Sign up switches
+    const { setIsLoginToggle, setIsSignupToggle } = useAuth();
 
+    // To clear fields for Login
+    const { setIsCredentials, setIsNetworkFailure } = useAuth();
     const { isLoginToggle, isSignupToggle } = useAuth();
 
+    // For error and success prompts
     const [isSignupSuccessful, setIsSignupSuccessful] = useState(false);
     const [isAccountExisting, setIsAccountExisting] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const [visible, setErrorVisible] = useState(false);
+
+    // For loading
+    const [isLoading, setIsLoading] = useState(false);
 
     const schema = yup.object().shape({
         firstname: yup.string().required('Enter your first name'),
@@ -79,21 +84,23 @@ export function Signup({ className, ...props }: formProps) {
 
             console.log('Signup successful: ', res.data);
 
-            setAuthEmail(dataForPost.email);
-            setIsAccountExisting(false);
-            setIsSignupSuccessful(true);
+            if (res.data.message === 'Account Successfully created') {
+                setAuthEmail(dataForPost.email);
+                setIsAccountExisting(false);
+                setIsSignupSuccessful(true);
 
-            setTimeout(() => {
-                setIsLoginToggle(true);
-                setIsSignupToggle(false);
+                setTimeout(() => {
+                    setIsLoginToggle(true);
+                    setIsSignupToggle(false);
 
-                setIsCredentials(false);
-                setIsNetworkFailure(false);
+                    setIsCredentials(false);
+                    setIsNetworkFailure(false);
 
-                reset();
+                    reset();
 
-                navigate('/login');
-            }, 3000);
+                    navigate('/login');
+                }, 3000);
+            }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             setIsLoading(false);
@@ -130,6 +137,7 @@ export function Signup({ className, ...props }: formProps) {
         }
     }, [isLoginToggle, isSignupToggle, reset, setIsCredentials, setIsNetworkFailure]);
 
+    // storage
     useEffect(() => {
         window.localStorage.setItem('EMAIL_POST_DATA', JSON.stringify(authEmail));
     }, [authEmail]);

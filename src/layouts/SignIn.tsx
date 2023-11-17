@@ -20,17 +20,27 @@ type FormValues = {
 export function SignIn({ className, ...props }: formProps) {
     const navigate = useNavigate();
 
+    // To set the logged in state
+    const { setIsLoggedIn } = useAuth();
+
+    // To store the user's email for authentication in profile
     const { authEmail, setAuthEmail } = useAuth();
+
+    // To toggle on the Login and Sign up switches
+    const { isLoginToggle, isSignupToggle } = useAuth();
+
     const { authRes, setAuthRes } = useAuth();
 
-    const [isLoading, setIsLoading] = useState(false);
+    // For error and success prompts
     const [isLoginSuccessful, setIsLoginSuccessful] = useState(false);
-
     const { isCredentials, setIsCredentials } = useAuth();
     const { isNetworkFailure, setIsNetworkFailure } = useAuth();
 
-    const { setIsInHome, setIsInJungle, setIsInStudio, setIsLoggedIn } = useAuth();
-    const { isLoginToggle, isSignupToggle } = useAuth();
+    // To toggle on the profile switches (private pages)
+    const { setIsInHome, setIsInJungle, setIsInStudio } = useAuth();
+
+    // For loading
+    const [isLoading, setIsLoading] = useState(false);
 
     const schema = yup.object().shape({
         email: yup.string().email('Enter a real email address').required('Enter your email address'),
@@ -56,15 +66,13 @@ export function SignIn({ className, ...props }: formProps) {
             const res = await axios.post(apiUrl, dataForPost);
 
             setAuthRes(res.data.token);
-            console.log(res.data.token);
+            // console.log(res.data.token);
 
             setAuthEmail(dataForPost.email);
             setIsLoginSuccessful(true);
 
             setTimeout(() => {
                 setIsInHome(true);
-                localStorage.setItem('IS_LOGGED_IN', JSON.stringify(true));
-
                 setIsInJungle(false);
                 setIsInStudio(false);
 
@@ -73,7 +81,7 @@ export function SignIn({ className, ...props }: formProps) {
                 localStorage.setItem('IS_LOGGED_IN', JSON.stringify(true));
             }, 3000);
 
-            console.log('Success message: ', res.data);
+            // console.log('Success message: ', res.data);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             setIsLoading(false);
@@ -89,7 +97,6 @@ export function SignIn({ className, ...props }: formProps) {
                 if (errorMessage === 'Invalid Username or password') {
                     setIsCredentials(true);
                     setIsNetworkFailure(false);
-                    console.log('Bingo!');
                     console.log(errorMessage);
                 } else {
                     setIsCredentials(false);
@@ -103,6 +110,7 @@ export function SignIn({ className, ...props }: formProps) {
     }
 
     useEffect(() => {
+        // to clean up input fields and error messages
         if (!isLoginToggle && isSignupToggle) {
             reset();
             setIsCredentials(false);
@@ -110,6 +118,7 @@ export function SignIn({ className, ...props }: formProps) {
         }
     }, [isLoginToggle, isSignupToggle, reset, setIsCredentials, setIsNetworkFailure]);
 
+    // storage
     useEffect(() => {
         window.localStorage.setItem('EMAIL_POST_DATA', JSON.stringify(authEmail));
     }, [authEmail]);
