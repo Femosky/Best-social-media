@@ -1,6 +1,7 @@
 import { ComponentProps, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { useAuth } from '../contexts/AuthContext';
+import { Heart } from 'lucide-react';
 // import { BestGradient } from '../components/BestGradient';
 
 type LoaderLogoProps = ComponentProps<'div'>;
@@ -56,6 +57,7 @@ export function LoaderLogo({ className, ...props }: LoaderLogoProps) {
                         className
                     )}
                 >
+                    <Heart />
                     <h1 className="text-[20px] md:text-[30px] lg:text-[40px] font-extrabold tracking-[3px] text-gray-900">
                         BEST
                     </h1>
