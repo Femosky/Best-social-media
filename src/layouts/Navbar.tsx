@@ -85,6 +85,7 @@ export function Navbar() {
 
                 setIsLoggedIn(false);
                 localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
+                setIsSmall(false);
             }
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
