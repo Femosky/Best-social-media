@@ -2,13 +2,7 @@ import { useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
 export function Home() {
-    const { isLoggedIn, setIsInHome, setIsInJungle, setIsInStudio } = useAuth();
-
-    useEffect(() => {
-        if (!isLoggedIn) {
-            window.location.href = '/login';
-        }
-    }, [isLoggedIn]);
+    const { setIsInHome, setIsInJungle, setIsInStudio } = useAuth();
 
     useEffect(() => {
         setIsInHome(true);

@@ -119,9 +119,6 @@ export function Navbar() {
             } else {
                 console.log('error: FINAL', error.response);
             }
-
-            // for beta testing - SET TO TRUE WHEN DONE
-            // localStorage.setItem('IS_LOGGED_IN', JSON.stringify(true));
         }
     }
 

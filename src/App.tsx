@@ -3,16 +3,18 @@ import { Routes, Route } from 'react-router-dom';
 import { Homepage } from './pages/Homepage';
 import { Navbar } from './layouts/Navbar';
 import { Login } from './pages/Login';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { AuthProvider } from './contexts/AuthContext';
 import { Home } from './pages/Home';
 import { Error404 } from './pages/Error404';
 import { NavbarProvider } from './contexts/NavbarContext';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Footer } from './layouts/Footer';
 import { Jungle } from './pages/Jungle';
 import { Studio } from './pages/Studio';
+import { PrivateRoutes } from './utils/PrivateRoutes';
 import { LoaderLogo } from './layouts/LoaderLogo';
+import { Delayed } from './components/Delayed';
 
 export type ChildrenProps = {
     children?: ReactNode;
@@ -31,66 +33,30 @@ function AppProviders({ children }: ChildrenProps) {
 function App() {
     return (
         <AppProviders>
-            <AppContent />
+            <LoaderLogo />
+            <Delayed>
+                <Navbar />
+                <AppContent /> {/* Main */}
+                <Footer />
+            </Delayed>
         </AppProviders>
     );
 }
 
 function AppContent() {
-    const { setUser } = useAuth();
-    const { isRefreshing, setIsRefreshing } = useAuth();
-
-    useEffect(() => {
-        function handleBeforeUnload() {
-            localStorage.setItem('isRefreshing', 'true');
-        }
-
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-            localStorage.removeItem('isRefreshing');
-        };
-    }, []);
-
-    useEffect(() => {
-        const storedIsRefreshing = localStorage.getItem('isRefreshing');
-        const isRefreshed = storedIsRefreshing === 'true';
-
-        if (isRefreshed) {
-            console.log('Page is being refreshed');
-            setIsRefreshing(true);
-
-            setTimeout(() => {
-                setIsRefreshing(false);
-                setUser(true);
-            }, 600);
-        } else {
-            setUser(true);
-        }
-
-        // Cleanup (optional)
-        return () => {
-            setUser(null);
-        };
-    }, [setIsRefreshing, setUser]);
-
     return (
-        <>
-            {isRefreshing && <LoaderLogo className="flex absolute bg-white z-[1000]" />}
-            <Navbar />
-            <div className={`mt-10 font-plusJakarta px-4 md:px-24 flex-1`}>
-                <Routes>
-                    <Route path="/" element={<Homepage />} />
+        <div className={`mt-10 font-plusJakarta px-4 md:px-24 flex-1`}>
+            <Routes>
+                <Route path="/" element={<Homepage />} />
+                <Route path="/login" element={<Login />} />
+                <Route element={<PrivateRoutes />}>
                     <Route path="home" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
                     <Route path="jungle" element={<Jungle />} />
                     <Route path="studio" element={<Studio />} />
-                    <Route path="*" element={<Error404 />} />
-                </Routes>
-            </div>
-            <Footer />
-        </>
+                </Route>
+                <Route path="*" element={<Error404 />} />
+            </Routes>
+        </div>
     );
 }
 
