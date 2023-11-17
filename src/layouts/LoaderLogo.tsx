@@ -56,12 +56,12 @@ export function LoaderLogo({ className, ...props }: LoaderLogoProps) {
                         className
                     )}
                 >
-                    {/* <h1 className="text-[20px] md:text-[30px] lg:text-[40px] font-extrabold tracking-[3px] text-gray-900">
+                    {/* <h1 className="text-[30px] lg:text-[40px] font-extrabold tracking-[3px] text-gray-900">
                         BEST
                     </h1> */}
                     <BestGradient
                         content="BEST"
-                        className="text-[20px] md:text-[30px] lg:text-[40px] font-plusJakarta font-extrabold tracking-[3px]"
+                        className="text-[30px] lg:text-[40px] font-plusJakarta font-extrabold tracking-[3px]"
                     />
                 </div>
             )}
