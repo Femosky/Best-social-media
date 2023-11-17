@@ -1,6 +1,7 @@
 import { ComponentProps, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { useAuth } from '../contexts/AuthContext';
+import { BestGradient } from '../components/BestGradient';
 
 type LoaderLogoProps = ComponentProps<'div'>;
 
@@ -52,10 +53,11 @@ export function LoaderLogo({ className, ...props }: LoaderLogoProps) {
                         className
                     )}
                 >
-                    <h1 className="text-[20px] font-plusJakarta font-extrabold leading-[30px] tracking-[3px] text-gray-900">
-                        BEST
-                    </h1>
-                    {/* <p>lg:hidden bg-black inset-0 fixed z-[998] opacity-50</p> */}
+                    {/* <h1 className="text-[40px] font-plusJakarta font-extrabold tracking-[3px] text-gray-900">BEST</h1> */}
+                    <BestGradient
+                        content="BEST"
+                        className="text-[40px] font-plusJakarta font-extrabold tracking-[3px]"
+                    />
                 </div>
             )}
         </>
