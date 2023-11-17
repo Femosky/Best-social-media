@@ -53,7 +53,7 @@ export function LoaderLogo({ className, ...props }: LoaderLogoProps) {
                 <div
                     {...props}
                     className={twMerge(
-                        'flex fixed z-[1000] bg-white justify-center items-center h-full w-full',
+                        'flex fixed z-[1000] bg-red-400 justify-center items-center h-full w-full',
                         className
                     )}
                 >
