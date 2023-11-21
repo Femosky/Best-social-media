@@ -19,6 +19,7 @@
     "react-cva": "^1.2.0",
     "react-cva-tools": "^0.4.0",
     "react-dom": "^18.2.0",
+    "react-focus-on": "^3.9.1",
     "react-hook-form": "^7.48.2",
     "react-router-dom": "^6.17.0",
     "tailwind-merge": "^1.14.0",

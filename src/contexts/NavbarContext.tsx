@@ -5,14 +5,21 @@ const NavContext = createContext<
     | {
           isSmall: boolean;
           setIsSmall: React.Dispatch<React.SetStateAction<boolean>>;
+          isPostActive: boolean;
+          setIsPostActive: React.Dispatch<React.SetStateAction<boolean>>;
       }
     | undefined
 >(undefined);
 
 export function NavbarProvider({ children }: ChildrenProps) {
     const [isSmall, setIsSmall] = useState(false);
+    const [isPostActive, setIsPostActive] = useState(false);
 
-    return <NavContext.Provider value={{ isSmall, setIsSmall }}>{children}</NavContext.Provider>;
+    return (
+        <NavContext.Provider value={{ isSmall, setIsSmall, isPostActive, setIsPostActive }}>
+            {children}
+        </NavContext.Provider>
+    );
 }
 
 // eslint-disable-next-line react-refresh/only-export-components

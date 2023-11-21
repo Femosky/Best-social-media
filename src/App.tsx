@@ -45,7 +45,7 @@ function App() {
 
 function AppContent() {
     return (
-        <div className={`mt-10 font-plusJakarta px-4 md:px-24 flex-1`}>
+        <div className={`h-screen mt-10 font-plusJakarta px-4 md:px-24 flex-grow`}>
             <Routes>
                 <Route path="/" element={<Homepage />} />
                 <Route path="/login" element={<Login />} />

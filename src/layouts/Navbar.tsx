@@ -188,10 +188,8 @@ export function Navbar() {
 
     return (
         <>
-            <div
-                className={`flex z-[995] shadow-[-1px_0px_2.4px_-1px_rgba(0,0,0,0.25)] w-full h-[4.5rem] justify-between items-center bg-white py-4 px-[50px] sticky top-0 left-0 right-0 font-plusJakarta min-w-[230px] | md:px-[72px] ${
-                    isSmall && 'overscroll-none overflow-hidden'
-                }`}
+            <nav
+                className={`flex z-[995] sticky shadow-[-1px_0px_2.4px_-1px_rgba(0,0,0,0.25)] h-[4.5rem] justify-between items-center bg-white py-4 px-[50px] top-0 left-0 right-0 font-plusJakarta min-w-[230px] | md:px-[72px] overflow-hidden`}
             >
                 <div className="">
                     <h1
@@ -322,7 +320,7 @@ export function Navbar() {
                         </Button>
                     </div>
                 )}
-            </div>
+            </nav>
 
             {/* WHEN NAVBAR OVERLAY IS OPENED */}
             {isSmall && (
