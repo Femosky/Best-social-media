@@ -97,7 +97,7 @@ export function SignIn({ className, ...props }: formProps) {
                 if (errorMessage === 'Invalid Username or password') {
                     setIsCredentials(true);
                     setIsNetworkFailure(false);
-                    console.log(errorMessage);
+                    // console.log(errorMessage);
                 } else {
                     setIsCredentials(false);
                     setIsNetworkFailure(true);

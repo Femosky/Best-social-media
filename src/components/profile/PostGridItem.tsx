@@ -36,7 +36,7 @@ export function PostGridItem({ id, imageUrl, likes }: PostGridItem) {
             </a>
 
             {isPostActive && (
-                <aside className="bg-white flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[998] justify-center items-center min-w-[50rem] w-[60rem] h-[40rem] | | ">
+                <aside className="bg-white rounded-lg flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[998] justify-center items-center min-w-[50rem] w-[60rem] h-[40rem] | | ">
                     <FocusOn onClickOutside={togglePostViewer} onEscapeKey={togglePostViewer}>
                         <div>
                             <Button onClick={togglePostViewer} variant="dark" size="round">

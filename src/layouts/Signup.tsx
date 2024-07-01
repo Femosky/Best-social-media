@@ -82,7 +82,7 @@ export function Signup({ className, ...props }: formProps) {
 
             const res = await axios.post(apiUrl, dataForPost);
 
-            console.log('Signup successful: ', res.data);
+            // console.log('Signup successful: ', res.data);
 
             if (res.data.message === 'Account Successfully created') {
                 setAuthEmail(dataForPost.email);
@@ -108,13 +108,13 @@ export function Signup({ className, ...props }: formProps) {
             setIsAccountExisting(false);
             setErrorVisible(false);
 
-            console.log('Error signing up: ', error);
+            // console.log('Error signing up: ', error);
 
             if (error.response && error.response.data) {
                 const errorMessage = error.response.data.message;
 
                 if (errorMessage === 'User already exists!') {
-                    console.log('User already exists!');
+                    // console.log('User already exists!');
                     setIsAccountExisting(true);
                     setErrorVisible(false);
                 } else {

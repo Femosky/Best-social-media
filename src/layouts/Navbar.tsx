@@ -134,18 +134,17 @@ export function Navbar() {
                 const errorMessage = error.response.data.message;
 
                 if (errorMessage === 'User not authenticated') {
-                    console.log('error: ', errorMessage);
-                    console.log('error: ', error.response);
-                    console.log('user indeed not authenticated');
+                    // console.log('error: ', errorMessage);
+                    // console.log('error: ', error.response);
+                    // console.log('user indeed not authenticated');
                 } else {
-                    console.log('error: SECOND', error.response);
-                    setIsLoading(true);
+                    // console.log('error: SECOND', error.response);
 
                     setIsLoggedIn(false);
                     localStorage.setItem('IS_LOGGED_IN', JSON.stringify(false));
                 }
             } else {
-                console.log('error: FINAL', error.response);
+                // console.log('error: FINAL', error.response);
             }
         }
     }
@@ -189,7 +188,7 @@ export function Navbar() {
     return (
         <>
             <nav
-                className={`flex z-[995] sticky shadow-[-1px_0px_2.4px_-1px_rgba(0,0,0,0.25)] h-[4.5rem] justify-between items-center bg-white py-4 px-[50px] top-0 left-0 right-0 font-plusJakarta min-w-[230px] | md:px-[72px] overflow-hidden`}
+                className={`flex z-[7] sticky shadow-[-1px_0px_2.4px_-1px_rgba(0,0,0,0.25)] h-[4.5rem] justify-between items-center bg-white py-4 px-[50px] top-0 left-0 right-0 font-plusJakarta min-w-[230px] | md:px-[72px] overflow-hidden`}
             >
                 <div className="">
                     <h1
@@ -325,7 +324,7 @@ export function Navbar() {
             {/* WHEN NAVBAR OVERLAY IS OPENED */}
             {isSmall && (
                 <aside
-                    className={`grid z-[999] fixed top-0 overscroll-contain overflow-y-scroll overscroll-y-none bg-white min-w-full min-h-full h-screen w-screen shrink-0 | md:transition-all md:w-[28rem] md:min-w-0 md:right-0 md:rounded-l-2xl`}
+                    className={`grid z-[9] fixed top-0 overscroll-contain overflow-y-scroll overscroll-y-none bg-white min-w-full min-h-full h-screen w-screen shrink-0 | md:transition-all md:w-[28rem] md:min-w-0 md:right-0 md:rounded-l-2xl`}
                 >
                     <section className="flex justify-between items-center py-4 px-[50px] top-0 right-0 font-plusJakarta h-[4.5rem] rounded-lg | md:px-[72px] md:justify-end">
                         <div className="flex md:hidden">
@@ -455,7 +454,7 @@ export function Navbar() {
                 </aside>
             )}
 
-            {isSmall && <div onClick={close} className="lg:hidden bg-black inset-0 fixed z-[998] opacity-50" />}
+            {isSmall && <div onClick={close} className="lg:hidden bg-black inset-0 fixed z-[8] opacity-50" />}
         </>
     );
 }

@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import { ChildrenProps } from '../App';
+import axios from 'axios';
 
 const AuthContext = createContext<
     | {
@@ -27,9 +28,31 @@ const AuthContext = createContext<
           setUser: React.Dispatch<React.SetStateAction<boolean | null>>;
           isRefreshing: boolean;
           setIsRefreshing: React.Dispatch<React.SetStateAction<boolean>>;
+          isEditProfileOpen: boolean;
+          setIsEditProfileOpen: React.Dispatch<React.SetStateAction<boolean>>;
+          username: string;
+          setUsername: React.Dispatch<React.SetStateAction<string>>;
+          bio: string;
+          setBio: React.Dispatch<React.SetStateAction<string>>;
+          isProfileLoading: boolean;
+          setIsProfileLoading: React.Dispatch<React.SetStateAction<boolean>>;
+          userProfileData: UserDataProps | null;
+          fetchData: () => Promise<void>;
       }
     | undefined
 >(undefined);
+
+type UserDataProps = {
+    numberOfAdores: number | null;
+    numberOfBesties: number | null;
+    numberOfPosts: number | null;
+    profileDescription: string | null;
+    username: string | null;
+};
+
+type FormValues = {
+    email: string;
+};
 
 export function AuthProvider({ children }: ChildrenProps) {
     const [isLoginToggle, setIsLoginToggle] = useState(true);
@@ -52,6 +75,94 @@ export function AuthProvider({ children }: ChildrenProps) {
 
     const [user, setUser] = useState<boolean | null>(null);
     const [isRefreshing, setIsRefreshing] = useState(false);
+
+    const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+
+    const [username, setUsername] = useState('');
+    const [bio, setBio] = useState('');
+
+    const [isProfileLoading, setIsProfileLoading] = useState(false);
+
+    const [userProfileData, setUserProfileData] = useState<UserDataProps | null>(null);
+
+    async function fetchData() {
+        setIsProfileLoading(true);
+
+        try {
+            const apiUrl = 'https://socialmediaapp-ugrr.onrender.com/profile';
+
+            const config = {
+                headers: {
+                    accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authRes}`,
+                },
+            };
+
+            const dataForPost: FormValues = {
+                email: authEmail,
+            };
+
+            const res = await axios.post(apiUrl, dataForPost, config);
+
+            setIsProfileLoading(false);
+
+            const newUserData: UserDataProps = {
+                numberOfAdores: res.data.number_of_adores,
+                numberOfBesties: res.data.number_of_besties,
+                numberOfPosts: res.data.number_of_posts,
+                profileDescription: res.data.profile_description,
+                username: res.data.username,
+            };
+
+            if (newUserData.numberOfAdores === null) {
+                newUserData.numberOfAdores = 0;
+            }
+
+            if (newUserData.numberOfBesties === null) {
+                newUserData.numberOfBesties = 0;
+            }
+
+            if (newUserData.numberOfPosts === null) {
+                newUserData.numberOfPosts = 0;
+            }
+
+            if (newUserData.profileDescription === null) {
+                newUserData.profileDescription = `Hello, I'm ${newUserData?.username}.`;
+            }
+
+            setUserProfileData(newUserData);
+
+            // console.log('Successful: ', res.data);
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            setIsProfileLoading(false);
+
+            if (error.response && error.response.data) {
+                const errorMessage = error.response.data.message;
+
+                if (errorMessage === 'User not authenticated') {
+                    // setIsProfileLoading(true);
+                    // console.log('user indeed not authenticated');
+                    // console.log('error: ', errorMessage);
+                    // console.log('error: ', error.response);
+                } else if (error.response.data.msg === 'Missing Authorization Header') {
+                    // console.log('error:', error.response.data.msg);
+                    // console.log('Missing Authorization Header INDEED');
+                } else if (errorMessage === 'User not found') {
+                    // console.log('user indeed not found');
+                    // console.log('error: ', errorMessage);
+                } else {
+                    // console.log('error: SECOND', error.response);
+                }
+            } else {
+                // console.log('error FINAL: ', error.response);
+            }
+
+            // window.location.href = '*';
+        }
+    }
 
     return (
         <AuthContext.Provider
@@ -80,6 +191,16 @@ export function AuthProvider({ children }: ChildrenProps) {
                 setUser,
                 isRefreshing,
                 setIsRefreshing,
+                isEditProfileOpen,
+                setIsEditProfileOpen,
+                username,
+                setUsername,
+                bio,
+                setBio,
+                isProfileLoading,
+                setIsProfileLoading,
+                userProfileData,
+                fetchData,
             }}
         >
             {children}

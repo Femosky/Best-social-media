@@ -37,7 +37,7 @@ export function LoaderLogo({ className, ...props }: LoaderLogoProps) {
         const isRefreshed = storedIsRefreshing === 'true';
 
         if (isRefreshed) {
-            console.log('Page is being refreshed');
+            // console.log('Page is being refreshed');
             setIsRefreshing(true);
 
             setTimeout(() => {
